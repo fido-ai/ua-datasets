@@ -33,9 +33,9 @@ class MovaInstitutePOSDataset:
         with open(file_path, 'r', encoding='utf8') as file:
             for line in file:
                 if line[0].isdigit():
-                    line = line.split('\t')
-                    curr_sample.append(line[1])
-                    curr_target.append(line[3])
+                    idx, word_sample, _, word_target, *_ = line.split('\t')
+                    curr_sample.append(word_sample)
+                    curr_target.append(word_target)
                 elif line[0] == '\n':
                     samples.append(curr_sample)
                     targets.append(curr_target)
