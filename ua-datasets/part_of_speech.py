@@ -17,15 +17,15 @@ class MovaInstitutePOSDataset:
             raise RuntimeError('Dataset not found.' + 
                               ' You can use download=True to download it')
         
-        self.samples, self.targets = self.load_data(self.dataset_path)
+        self._samples, self._targets = self.load_data(self.dataset_path)
     
     @property
     def labels(self) -> List[Any]:
-        return self.targets
+        return self._targets
     
     @property
     def data(self) -> List[Any]:
-        return self.samples
+        return self._samples
     
     def load_data(self, file_path) -> Tuple[List[Any], List[Any]]:
         samples, targets = list(), list()
@@ -43,12 +43,12 @@ class MovaInstitutePOSDataset:
         return samples, targets
                     
     def __getitem__(self, idx) -> Tuple[Any, Any]:
-        sample = self.samples[idx]
-        target = self.targets[idx]
+        sample = self._samples[idx]
+        target = self._targets[idx]
         return sample, target
     
     def __len__(self) -> int:
-        return len(self.data)
+        return len(self._samples)
     
     def _check_exists(self) -> bool:
         return self.dataset_path.exists()
