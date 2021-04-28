@@ -2,6 +2,7 @@ from urllib import request
 from pathlib import Path
 from typing import Any, Tuple, List
 
+
 class MovaInstitutePOSDataset:
     
     data_file = 'https://lab.mova.institute/files/robochyi_tb.conllu.txt'
