@@ -16,7 +16,7 @@ class MovaInstitutePOSDataset:
             
         if not self._check_exists():
             raise RuntimeError('Dataset not found.' + 
-                              ' You can use download=True to download it')
+                               ' You can use download=True to download it')
         
         self._samples, self._targets = self.load_data(self.dataset_path)
     
