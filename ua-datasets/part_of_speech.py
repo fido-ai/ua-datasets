@@ -7,7 +7,7 @@ class MovaInstitutePOSDataset:
     
     data_file = 'https://lab.mova.institute/files/robochyi_tb.conllu.txt'
     
-    def __init__(self, root: str,  download: bool = True) -> None:
+    def __init__(self, root: str, download: bool = True) -> None:
         self.root = Path(root)
         self.file_name = 'mova_institue_pos_dataset.txt'
         self.dataset_path = self.root / self.file_name
