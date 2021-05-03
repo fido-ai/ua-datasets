@@ -18,7 +18,7 @@ class MovaInstitutePOSDataset:
             raise RuntimeError('Dataset not found.' + 
                                ' You can use download=True to download it')
         
-        self._samples, self._targets = self.load_data(self.dataset_path)
+        self._samples, self._targets = self.load_data()
     
     @property
     def labels(self) -> List[Any]:
@@ -28,10 +28,10 @@ class MovaInstitutePOSDataset:
     def data(self) -> List[Any]:
         return self._samples
     
-    def load_data(self, file_path) -> Tuple[List[Any], List[Any]]:
+    def load_data(self) -> Tuple[List[Any], List[Any]]:
         samples, targets = list(), list()
         curr_sample, curr_target = list(), list()
-        with open(file_path, 'r', encoding='utf8') as file:
+        with open(self.dataset_path, 'r', encoding='utf8') as file:
             for line in file:
                 if line[0].isdigit():
                     idx, word_sample, _, word_target, *_ = line.split('\t')
