@@ -4,8 +4,8 @@ import json
 from typing import Any, Tuple, List
 
 
-class SquadDataset:
-
+# Ukrainian Stanford Question Answering Dataset
+class UaSquadDataset:
     _data_train = 'https://rajpurkar.github.io/SQuAD-explorer/dataset/train-v2.0.json'
     _data_test = 'https://rajpurkar.github.io/SQuAD-explorer/dataset/dev-v2.0.json'
 
@@ -22,7 +22,7 @@ class SquadDataset:
             raise RuntimeError('Dataset not found. ' +
                                'You can use download=True to download it')
 
-        self._questions, self._contexts, self._answers = self.parse(self.dataset_path)
+        self._questions, self._contexts, self._answers = self.load_data(self.dataset_path)
 
     @property
     def answers(self) -> List[Any]:
@@ -47,7 +47,7 @@ class SquadDataset:
             f.write(text)
 
     @staticmethod
-    def parse(file_path) -> Tuple[List[Any], List[Any], List[Any]]:
+    def load_data(file_path) -> Tuple[List[Any], List[Any], List[Any]]:
         questions, contexts, answers = list(), list(), list()
 
         with open(file_path, 'r', encoding='utf8') as file:
