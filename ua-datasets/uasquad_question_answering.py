@@ -1,17 +1,18 @@
-from urllib import request
+import json
 from pathlib import Path
 from typing import Any, Tuple, List
+
+import gdown
 
 
 # Ukrainian Stanford Question Answering Dataset
 class UaSquadDataset:
-
-    _data = 'https://raw.githubusercontent.com/IronTony-Stark/ua-datasets-data/master/ua-squad.txt'
+    _data = 'https://drive.google.com/uc?id=1nws0WN6kOivvpt8biAn1vEfRIzIrx0B9'
 
     def __init__(self, root: str, download: bool = True) -> None:
         self.data_link = self._data
         self.root = Path(root)
-        self.file_name = f'ua_squad_dataset.txt'
+        self.file_name = f'ua_squad_dataset.json'
         self.dataset_path = self.root / self.file_name
 
         if download:
@@ -21,7 +22,7 @@ class UaSquadDataset:
             raise RuntimeError('Dataset not found. ' +
                                'You can use download=True to download it')
 
-        self._questions, self._contexts, self._answers = self.parse(self.dataset_path)
+        self._questions, self._contexts, self._answers = UaSquadDataset.parse(self.dataset_path)
 
     @property
     def answers(self) -> List[Any]:
@@ -41,50 +42,19 @@ class UaSquadDataset:
 
         self.root.mkdir(exist_ok=True)
 
-        text = request.urlopen(self.data_link).read().decode('utf8')
-        with open(self.dataset_path, 'w', encoding='utf8') as f:
-            f.write(text)
+        gdown.download(self.data_link, str(self.dataset_path), quiet=False)
 
     @staticmethod
     def parse(file_path) -> Tuple[List[Any], List[Any], List[Any]]:
         questions, contexts, answers = list(), list(), list()
 
         with open(file_path, 'r', encoding='utf8') as file:
-            text = file.read()
+            json_obj = json.load(file)
 
-        was_question = False
-        for line in text.splitlines():
-            if line.startswith("Запитання: "):
-                if was_question:
-                    answers.append("")
-                was_question = True
-
-                line = line[len("Запитання: "):]
-                questions.append(line)
-            elif line.startswith("Питання: "):
-                if was_question:
-                    answers.append("")
-                was_question = True
-
-                line = line[len("Питання: "):]
-                questions.append(line)
-            elif line.startswith("Відповідь: "):
-                was_question = False
-
-                line = line[len("Відповідь: "):]
-                answers.append(line)
-            elif line.startswith("Контекст: "):
-                if was_question:
-                    answers.append("")
-                was_question = False
-
-                line = line[len("Контекст: "):]
-                while len(contexts) != len(questions):
-                    contexts.append(line)
-            elif line.startswith("Назва: ") or not line:
-                pass
-            else:
-                print("[WARN] Invalid dataset line format: " + line)
+        for qca in json_obj:
+            questions.append(qca['Question'])
+            contexts.append(qca['Context'])
+            answers.append(qca['Answer'])
 
         return questions, contexts, answers
 
