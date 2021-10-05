@@ -41,7 +41,7 @@ class NewsClassification:
 		""" Target names """
 		return set([row[self.columns.index('target')] for row in self._data])
 		
-	def __getitem__(self, idx) -> Tuple[str]:
+	def __getitem__(self, idx: int) -> Tuple[str]:
 		title, text, tags, target = self._data[idx]
 		if self.return_tags:
 			tags = self._preprocess_tags(tags)
@@ -49,11 +49,11 @@ class NewsClassification:
 		else:
 			return title, text, target
 	
-	def _preprocess_tags(self, tags) -> List[str]:
+	def _preprocess_tags(self, tags: str) -> List[str]:
 		""" Text tags preprocessing """
 		return [el for el in tags.split("|") if el != '']
 
-	def __len__(self):
+	def __len__(self) -> int:
 		""" Number of rows in the dataset """
 		return len(self._data)
 
