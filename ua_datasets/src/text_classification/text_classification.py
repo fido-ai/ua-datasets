@@ -84,3 +84,4 @@ class NewsClassificationDataset:
 		""" Number of rows in the dataset """
 		return len(self._data)
 	
+	
