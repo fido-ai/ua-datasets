@@ -56,14 +56,4 @@ class NewsClassification:
 	def __len__(self) -> int:
 		""" Number of rows in the dataset """
 		return len(self._data)
-
-if __name__ == '__main__':
-	data = NewsClassification(return_tags=True) 
-	print(len(data))
-	print(data[0])
-	print(data.labels())
-
-	data = NewsClassification(split='test')
-	print(len(data))
-	print(data.labels())
 	
