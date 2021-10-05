@@ -1,10 +1,11 @@
 import csv
 import pathlib
-from typing import Any, Tuple, List
+from typing import Tuple, List
 
-class NewsClassification:
+
+class NewsClassificationDataset:
 	def __init__(self, split: str = 'train', return_tags: bool = False):
-		""" News classification dataset
+		""" News Classification Dataset
 
 		Args:
 			split (:obj: `str`): Which split of the data to load (train or test)
@@ -15,7 +16,7 @@ class NewsClassification:
 		self.return_tags = return_tags
 		self.split = split
 		self._data = self._load_data()
-		
+
 	def _load_data(self) -> List[List[str]]:
 		""" Load dataset """
 		if self.split == 'train':
@@ -48,8 +49,9 @@ class NewsClassification:
 			return title, text, tags, target
 		else:
 			return title, text, target
-	
-	def _preprocess_tags(self, tags: str) -> List[str]:
+
+	@staticmethod
+	def _preprocess_tags(tags: str) -> List[str]:
 		""" Text tags preprocessing """
 		return [el for el in tags.split("|") if el != '']
 

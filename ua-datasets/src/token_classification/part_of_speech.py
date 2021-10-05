@@ -9,7 +9,7 @@ class MovaInstitutePOSDataset:
     
     def __init__(self, root: str, download: bool = True) -> None:
         self.root = Path(root)
-        self.file_name = 'mova_institue_pos_dataset.txt'
+        self.file_name = 'mova_institute_pos_dataset.txt'
         self.dataset_path = self.root / self.file_name
         if download:
             self.download()
@@ -43,7 +43,7 @@ class MovaInstitutePOSDataset:
                     curr_sample, curr_target = list(), list()
         return samples, targets
                     
-    def __getitem__(self, idx) -> Tuple[Any, Any]:
+    def __getitem__(self, idx: int) -> Tuple[Any, Any]:
         sample = self._samples[idx]
         target = self._targets[idx]
         return sample, target

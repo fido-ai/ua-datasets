@@ -1,15 +1,22 @@
 import json
+import gdown
 from pathlib import Path
 from typing import Any, Tuple, List
 
-import gdown
 
-
-# Ukrainian Stanford Question Answering Dataset
 class UaSquadDataset:
+
     _data = 'https://drive.google.com/uc?id=1nws0WN6kOivvpt8biAn1vEfRIzIrx0B9'
 
     def __init__(self, root: str, download: bool = True) -> None:
+        """ Ukrainian Stanford Question Answering Dataset
+
+        Args:
+            root (:obj: `str`): Root directory where data will be stored
+            download (:obj: `bool`, optional): Whether to download data to the root directory. If the data
+            already exists, it will not be downloaded again
+
+        """
         self.data_link = self._data
         self.root = Path(root)
         self.file_name = f'ua_squad_dataset.json'
@@ -45,7 +52,7 @@ class UaSquadDataset:
         gdown.download(self.data_link, str(self.dataset_path), quiet=False)
 
     @staticmethod
-    def parse(file_path) -> Tuple[List[Any], List[Any], List[Any]]:
+    def parse(file_path: str) -> Tuple[List[Any], List[Any], List[Any]]:
         questions, contexts, answers = list(), list(), list()
 
         with open(file_path, 'r', encoding='utf8') as file:
@@ -58,7 +65,7 @@ class UaSquadDataset:
 
         return questions, contexts, answers
 
-    def __getitem__(self, idx) -> Tuple[Any, Any, Any]:
+    def __getitem__(self, idx: int) -> Tuple[Any, Any, Any]:
         question = self._questions[idx]
         context = self._contexts[idx]
         answer = self._answers[idx]
