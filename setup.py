@@ -90,6 +90,10 @@ setup(
     license="MIT",  # Don't forget to change classifiers if you change the license
     classifiers=[
         # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
+        "Intended Audience :: Developers",
+        "Intended Audience :: Education",
+        "Intended Audience :: Science/Research",
+        "Natural Language :: Ukrainian",
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.7",
