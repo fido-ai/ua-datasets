@@ -3,17 +3,27 @@ import pathlib
 from typing import Any, Tuple, List
 
 class NewsClassification:
-	def __init__(self, train: bool = True, return_keywords: bool = True):
-		self.train = train
-		self.return_keywords = return_keywords
+	def __init__(self, split: str = 'train', return_keywords: bool = False):
+		""" News classification dataset
+
+		Args:
+			split (:obj: `str`): Which split of the data to load (train or test)
+			return_keywords (:obj: `bool`, optional): Whether to return text keywords 
+			
+		"""
 		self.path = (pathlib.Path(__file__) / ".." / ".." / "..").resolve()
-		self._data = self.load_data()
+		self.return_keywords = return_keywords
+		self.split = split
+		self._data = self._load_data()
 		
-	def load_data(self):
-		if self.train:
+	def _load_data(self) -> List[List[str]]:
+		""" Load dataset """
+		if self.split == 'train':
 			data_path = self.path / 'data/text_classification/train.csv'
-		else:
+		elif self.split == 'test':
 			data_path = self.path / 'data/text_classification/test.csv'
+		else:
+			raise NotImplementedError()
 			
 		file = open(data_path)
 		csvreader = csv.reader(file)
@@ -22,8 +32,17 @@ class NewsClassification:
 		for row in csvreader:
 			samples.append(row)
 		return samples
+
+	def column_names(self) -> List[str]:
+		""" Dataset column names """
+		return self.columns
+
+	def labels(self) -> List[str]:
+		""" Target names """
+		return set([row[-1] for row in self._data])
+		#return set([row[-1] for row in self._data])
 		
-	def __getitem__(self, idx):
+	def __getitem__(self, idx) -> Tuple[str]:
 		title, text, tags, target = self._data[idx]
 		if self.return_keywords:
 			return title, text, tags, target
@@ -31,12 +50,15 @@ class NewsClassification:
 			return title, text, target
 	
 	def __len__(self):
+		""" Number of rows in the dataset """
 		return len(self._data)
 
 if __name__ == '__main__':
 	data = NewsClassification() 
 	print(len(data))
+	print(data.labels())
 
-	data = NewsClassification(train=False)
+	data = NewsClassification(split='test')
 	print(len(data))
+	print(data.labels())
 	
