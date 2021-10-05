@@ -1,12 +1,12 @@
 import json
-import gdown
+from urllib import request
 from pathlib import Path
 from typing import Any, Tuple, List
 
 
 class UaSquadDataset:
 
-    _data = 'https://drive.google.com/uc?id=1nws0WN6kOivvpt8biAn1vEfRIzIrx0B9'
+    _data = 'https://github.com/fido-ai/ua-datasets/releases/download/v0.0.1/ua_squad_dataset.json'
 
     def __init__(self, root: str, download: bool = True) -> None:
         """ Ukrainian Stanford Question Answering Dataset
@@ -49,7 +49,9 @@ class UaSquadDataset:
 
         self.root.mkdir(exist_ok=True)
 
-        gdown.download(self.data_link, str(self.dataset_path), quiet=False)
+        text = request.urlopen(self._data).read().decode('utf8')
+        with open(self.dataset_path, 'w', encoding='utf8') as f:
+            f.write(text)
 
     @staticmethod
     def parse(file_path: str) -> Tuple[List[Any], List[Any], List[Any]]:
