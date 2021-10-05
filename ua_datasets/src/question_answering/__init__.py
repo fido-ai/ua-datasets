@@ -1,1 +1,1 @@
-from uasquad_question_answering import UaSquadDataset
+from .uasquad_question_answering import UaSquadDataset

@@ -1,1 +1,1 @@
-from text_classification import NewsClassificationDataset
+from .text_classification import NewsClassificationDataset

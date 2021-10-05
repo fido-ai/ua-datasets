@@ -1,1 +1,1 @@
-from part_of_speech import MovaInstitutePOSDataset
+from .part_of_speech import MovaInstitutePOSDataset

@@ -1,3 +1,3 @@
-from token_classification import MovaInstitutePOSDataset
-from text_classification import NewsClassificationDataset
-from question_answering import UaSquadDataset
+from .token_classification import MovaInstitutePOSDataset
+from .text_classification import NewsClassificationDataset
+from .question_answering import UaSquadDataset

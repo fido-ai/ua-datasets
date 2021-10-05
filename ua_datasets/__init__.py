@@ -1,1 +1,1 @@
-from src import MovaInstitutePOSDataset, NewsClassificationDataset, UaSquadDataset
+from .src import MovaInstitutePOSDataset, NewsClassificationDataset, UaSquadDataset
