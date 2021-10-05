@@ -1,0 +1,3 @@
+from src.token_classification import MovaInstitutePOSDataset
+from src.text_classification import NewsClassificationDataset
+from src.question_answering import UaSquadDataset
