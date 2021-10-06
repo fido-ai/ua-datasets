@@ -93,6 +93,19 @@ A dataset with 115,500 sentences can be found here: https://drive.google.com/dri
 
 How to use
 =======
+    from ua_datasets.src.token_classification.part_of_speech import MovaInstitutePOSDataset
+    # 1st parameter is root folder, 2nd is boolean, whether you want to download data or not.
+    mova = MovaInstitutePOSDataset('')
+    # returns all samples(lists in list).
+    mova.data
+    # returns corresponds tags.
+    mova.targets 
+Example
+
+    mova.data[0]
+    #returns ['У', 'домі', 'римського', 'патриція', 'Руфіна', 'була', 'прегарна', 'фреска', ',', 'зображення', 'Венери', 'та', 'Адоніса', '.']
+    mova.targets[0]
+    #returns ['ADP', 'NOUN', 'ADJ', 'NOUN', 'PROPN', 'VERB', 'ADJ', 'NOUN', 'PUNCT', 'NOUN', 'PROPN', 'CCONJ', 'PROPN', 'PUNCT']
 
 
 
