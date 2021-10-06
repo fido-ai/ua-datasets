@@ -2,9 +2,9 @@
 
 ## Dataset Summary
 
-Ukrainian News is a collection of more than 150 thousands news articles, gathered from more than 20 news resources. Dataset samples are divided into 5 categories: `політика`, `спорт`, `новини`, `бізнес`, `технології`. The dataset is provided by the non-profit student's organisation FIdo.ai (machine learning research division of [FIdo](https://www.facebook.com/fido.naukma/), National University of Kyiv-Mohyla Academy) for research purposes in data mining (classification, clustering, keywords extraction, etc.)
+Ukrainian News is a collection of more than 150 thousand news articles, gathered from more than 20 news resources. Dataset samples are divided into 5 categories: `політика`, `спорт`, `новини`, `бізнес`, `технології`. The dataset is provided by the non-profit student's organization FIdo.ai (machine learning research division of [FIdo](https://www.facebook.com/fido.naukma/), National University of Kyiv-Mohyla Academy) for research purposes in data mining (classification, clustering, keywords extraction, etc.)
 
-Dataset development is still in progress
+Dataset development is still __in progress__
 
 
 ## Dataset Structure
@@ -12,6 +12,7 @@ Dataset development is still in progress
 ```python
 from ua_datasets import NewsClassificationDataset
 train_data = NewsClassificationDataset(root = 'data/', split = 'train', return_tags = True)
+test_data = NewsClassificationDataset(root = 'data/', split = 'test', return_tags = True)
 ```
 __Parameters__: </br>
 - `root` : Directory path
