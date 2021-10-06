@@ -13,7 +13,13 @@ Dataset development is still in progress
 from ua_datasets import NewsClassificationDataset
 train_data = NewsClassificationDataset(root = 'data/', split = 'train', return_tags = True)
 ```
+__Parameters__: </br>
+- `root` : Directory path
+- `download`: Whether to download data
+- `split`: Which split of the data to load (train or test)
+- `return_tags`: Whether to return text keywords
 
+----- 
  - Train :
     - File size: 324 MB
     - Number of samples: 120417 
@@ -29,12 +35,6 @@ An example of 'train' looks as following:
   "text" : 'Про це повідомив голова Донецької ОДА Павло Кириленко в Facebook ...,
   "tags" : ['Донецька область', 'COVID-19', 'Новини'],
   "target" : 'новини'
+ }
 ```
-
------ 
-__Parameters__: </br>
-- `root` : Directory path
-- `download`: Whether to download data
-- `split`: Which split of the data to load (train or test)
-- `return_tags`: Whether to return text keywords
 
