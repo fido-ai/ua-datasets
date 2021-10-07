@@ -14,8 +14,8 @@ mova.targets
 ```
 # Dataset Structure #
 Parameters: </br>
-- root : Directory path
-- download: Whether to download data
+- `root` : Directory path
+- `download`: Whether to download data
 
 
 Sample output:
