@@ -28,7 +28,7 @@ __Parameters__: </br>
     - File size: 81 MB
     - Number of samples: 30105
 
-An example of 'train' looks as following:
+An example of 'train' sample looks as following:
 
 ```
 {
