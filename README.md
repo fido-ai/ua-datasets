@@ -1,4 +1,16 @@
-# ua_datasets
+
+<p align="center">
+  <img src="/assets/NaUKMA.png" width="350" title="hover text">
+</p>
+
+<h1 align="center">
+    ua_datasets
+</h1>
+
+
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
+
 __ua_datasets__ is a collection of Ukrainian language datasets. Our aim is to build a benchmark for research related to 
 natural language processing in Ukrainian.
 
