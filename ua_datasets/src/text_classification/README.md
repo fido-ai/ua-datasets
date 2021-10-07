@@ -7,13 +7,13 @@ Ukrainian News is a collection of more than 150 thousand news articles, gathered
 Dataset development is still __in progress__
 
 
-## Dataset Structure
-
 ```python
 from ua_datasets import NewsClassificationDataset
 train_data = NewsClassificationDataset(root = 'data/', split = 'train', return_tags = True)
 test_data = NewsClassificationDataset(root = 'data/', split = 'test', return_tags = True)
 ```
+
+## Dataset Structure
 __Parameters__: </br>
 - `root` : Directory path
 - `download`: Whether to download data
@@ -23,12 +23,30 @@ __Parameters__: </br>
 ----- 
  - Train :
     - File size: 324 MB
-    - Number of samples: 120417 
+    - Number of samples: 120417
+    <details> 
+    <summary>Target distribution</summary>
+ 
+        `політика` : 40364 (33.5%)
+        `спорт` : 40364 (33.5%)
+        `новини` : 40364 (33.5%)
+        `бізнес` : 40364 (33.5%)
+        `технології` : 40364 (33.5%)
+    </details>
  - Test file size: 
     - File size: 81 MB
     - Number of samples: 30105
+    <details> 
+    <summary>Target distribution</summary>
+ 
+        `політика` : 40364 (33.5%)
+        `спорт` : 40364 (33.5%)
+        `новини` : 40364 (33.5%)
+        `бізнес` : 40364 (33.5%)
+        `технології` : 40364 (33.5%)
+    </details>
 
-An example of 'train' looks as following:
+An example of 'train' sample looks as following:
 
 ```
 {
