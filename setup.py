@@ -13,12 +13,12 @@ from shutil import rmtree
 from setuptools import find_packages, setup, Command
 
 NAME = "ua-datasets"
-DESCRIPTION = "A collection of datasets in ukrainian language"
+DESCRIPTION = "A collection of ukrainian language datasets"
 URL = "https://github.com/fido-ai/ua-datasets"
 # EMAIL = "me@example.com"
 AUTHOR = "FIdo AI"
 REQUIRES_PYTHON = ">=3.7.0"
-VERSION = "0.1.0"
+VERSION = "0.0.1"
 REQUIRED = [
 ]
 EXTRAS = {
@@ -26,6 +26,7 @@ EXTRAS = {
 }
 
 here = os.path.abspath(os.path.dirname(__file__))
+print(here)
 
 # Import the README and use it as the long-description.
 # Note: this will only work if "README.md" is present in your MANIFEST.in file!
