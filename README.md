@@ -1,5 +1,5 @@
 # ua_datasets
-__ua-datasets__ is a collection of Ukrainian language datasets. We aim to build a benchmark for research related to 
+__ua_datasets__ is a collection of Ukrainian language datasets. We aim to build a benchmark for research related to 
 natural language processing in Ukrainian.
 
 This library is provided by the non-profit student's organization FIdo.ai (machine learning research division of 
