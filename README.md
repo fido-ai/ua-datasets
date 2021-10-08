@@ -8,6 +8,7 @@
 </h1>
 
 <p align="center">
+  <a href="http://www.repostatus.org/badges/0.1.0/active.svg"><img src="http://www.repostatus.org/badges/0.1.0/active.svg"/></a>
 <a href="https://img.shields.io/badge/License-Apache%202.0-blue.svg"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"/></a>
  <a href="https://img.shields.io/badge/Version-0.0.2-orange.svg"><img src="https://img.shields.io/badge/Version-0.0.1-green.svg" alt="Version"/></a></p>
 
