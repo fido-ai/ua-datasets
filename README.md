@@ -7,9 +7,9 @@
     ua_datasets
 </h1>
 
-
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-
+<p align="center">
+<a href="https://img.shields.io/badge/License-Apache%202.0-blue.svg"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"/></a>
+ <a href="https://img.shields.io/badge/Version-0.0.2-orange.svg"><img src="https://img.shields.io/badge/Version-0.0.1-green.svg" alt="Version"/></a></p>
 
 __ua_datasets__ is a collection of Ukrainian language datasets. Our aim is to build a benchmark for research related to 
 natural language processing in Ukrainian.
