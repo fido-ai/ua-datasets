@@ -62,8 +62,8 @@ class NewsClassificationDataset:
         samples = list()
         prev = next(csvreader)
         for row in csvreader:
-        	yield prev
-        	prev = row
+            yield prev
+            prev = row
             samples.append(prev)
         return samples
 
