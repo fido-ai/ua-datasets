@@ -2,7 +2,7 @@ import json
 from enum import Enum
 from typing import List
 
-from uasquad_question_answering import UaSquadDataset
+from .uasquad_question_answering import UaSquadDataset
 
 
 # Keywords - "Питання:", "Контекст:", "Відповідь:"
