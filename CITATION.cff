@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Ivanyuk-Skulskiy"
+  given-names: "Bogdan"
+- family-names: "Zaliznyi"
+  given-names: "Anton"
+- family-names: "Reshetar"
+  given-names: "Oleksand"
+- family-names: "Protsyk"
+  given-names: "Oleksiy"
+- family-names: "Romanchuk"
+  given-names: "Bohdan"
+- family-names: "Shpihanovych"
+  given-names: "Vladyslav"
+title: "ua_datasets"
+version: 0.0.1
+date-released: 2021-10-09
+url: "https://github.com/fido-ai/ua-datasets"

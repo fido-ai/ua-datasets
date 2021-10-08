@@ -1,16 +1,17 @@
 
-<p align="center">
-  <img src="https://github.com/fido-ai/ua-datasets/blob/main/assets/NaUKMA.png" width="350" title="hover text">
+<p style="text-align: center;">
+  <img src="https://github.com/fido-ai/ua-datasets/blob/main/assets/NaUKMA.png" width="350" title="hover text" alt="NaUKMA FIdo Logo">
 </p>
 
-<h1 align="center">
+<h1 style="text-align: center;">
     ua_datasets
 </h1>
 
-<p align="center">
-  <a href="http://www.repostatus.org/badges/0.1.0/active.svg"><img src="http://www.repostatus.org/badges/0.1.0/active.svg"/></a>
-<a href="https://img.shields.io/badge/License-Apache%202.0-blue.svg"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"/></a>
- <a href="https://img.shields.io/badge/Version-0.0.2-orange.svg"><img src="https://img.shields.io/badge/Version-0.0.1-green.svg" alt="Version"/></a></p>
+<p style="text-align: center;">
+    <a href="https://www.repostatus.org/badges/0.1.0/active.svg"><img src="https://www.repostatus.org/badges/0.1.0/active.svg" alt="Repo Status"/></a>
+    <a href="https://img.shields.io/badge/Version-0.0.2-orange.svg"><img src="https://img.shields.io/badge/Version-0.0.1-green.svg" alt="Version"/></a>
+    <a href="https://img.shields.io/badge/License-Apache%202.0-blue.svg"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License"/></a>
+</p>
 
 __ua_datasets__ is a collection of Ukrainian language datasets. Our aim is to build a benchmark for research related to 
 natural language processing in Ukrainian.
@@ -37,3 +38,11 @@ pip install ua_datasets
 In case you are willing to contribute (update any part of the library, add your dataset) do not hesitate to connect through [GitHub Issue](https://github.com/fido-ai/ua-datasets/issues/new/choose). Thanks in advance for your contribution! 
 Let's make the Ukrainian language even greater!
 
+## Citation
+```bib
+@article{
+  title={ua_datasets: a collection of Ukrainian language datasets},
+  author={Bogdan Ivanyuk-Skulskiy, Anton Zaliznyi, Oleksand Reshetar, Oleksiy Protsyk, Bohdan Romanchuk, Vladyslav Shpihanovych},
+  year={2021}
+}
+```
