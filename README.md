@@ -8,9 +8,11 @@
 </h1>
 
 <p align="center">
-    <a href="https://www.repostatus.org/badges/0.1.0/active.svg"><img src="https://www.repostatus.org/badges/0.1.0/active.svg" alt="Repo Status"/></a>
     <a href="https://img.shields.io/badge/Version-0.0.2-orange.svg"><img src="https://img.shields.io/badge/Version-0.0.1-green.svg" alt="Version"/></a>
     <a href="https://img.shields.io/badge/License-Apache%202.0-blue.svg"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License"/></a>
+</p>
+<p align="center">
+    <a href="https://www.repostatus.org/badges/0.1.0/active.svg"><img src="https://www.repostatus.org/badges/0.1.0/active.svg" alt="Repo Status"/></a>
 </p>
 
 __ua_datasets__ is a collection of Ukrainian language datasets. Our aim is to build a benchmark for research related to 
