@@ -6,7 +6,7 @@ Dataset development is still **in progress**
 ```python
 from ua_datasets import UaSquadDataset
 
-qa_dataset = UaSquadDataset(".")
+qa_dataset = UaSquadDataset("data/")
 for i in range(len(qa_dataset)):
     question, context, answer = qa_dataset[i]
     print("Question: " + question)
