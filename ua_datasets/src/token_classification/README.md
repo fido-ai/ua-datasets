@@ -5,7 +5,7 @@ https://lab.mova.institute/files/robochyi_tb.conllu.txt
 
 
 ```python
-from ua_datasets.src.token_classification.part_of_speech import MovaInstitutePOSDataset
+from ua_datasets import MovaInstitutePOSDataset
 mova = MovaInstitutePOSDataset(root='data/', download=True)
 # returns all samples(lists in list).
 mova.data
