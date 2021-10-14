@@ -59,12 +59,7 @@ class NewsClassificationDataset:
         file = open(self.dataset_path)
         csvreader = csv.reader(file)
         self._columns = next(csvreader)
-        samples = list()
-        prev = next(csvreader)
-        for row in csvreader:
-            yield prev
-            prev = row
-            samples.append(prev)
+        samples = list(csvreader)[:-1]
         return samples
 
     @property
