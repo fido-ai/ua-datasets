@@ -41,9 +41,7 @@ class MovaInstitutePOSDataset:
                     samples.append(curr_sample)
                     targets.append(curr_target)
                     curr_sample, curr_target = list(), list()
-        samples = [element for element in samples if element != []]
-        targets = [element for element in targets if element != []]
-        return samples, targets
+        return samples[:-1], targets[:-1]
 
     def __getitem__(self, idx: int) -> Tuple[Any, Any]:
         sample = self._samples[idx]
