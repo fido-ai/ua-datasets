@@ -32,7 +32,7 @@ class MovaInstitutePOSDataset:
         samples, targets = list(), list()
         curr_sample, curr_target = list(), list()
         with open(self.dataset_path, 'r', encoding='utf8') as file:
-            for line in file:
+            for line in file[:-1]:
                 if line[0].isdigit():
                     idx, word_sample, _, word_target, *_ = line.split('\t')
                     curr_sample.append(word_sample)
@@ -41,7 +41,7 @@ class MovaInstitutePOSDataset:
                     samples.append(curr_sample)
                     targets.append(curr_target)
                     curr_sample, curr_target = list(), list()
-        return samples[:-1], targets[:-1]
+        return samples, targets
 
     def __getitem__(self, idx: int) -> Tuple[Any, Any]:
         sample = self._samples[idx]
