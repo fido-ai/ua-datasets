@@ -56,15 +56,10 @@ class NewsClassificationDataset:
 
     def _load_data(self) -> List[List[str]]:
         """ Load dataset """
-        file = open(self.dataset_path)
+        file = open(self.dataset_path, encoding="utf-8")
         csvreader = csv.reader(file)
         self._columns = next(csvreader)
-        samples = list()
-        prev = next(csvreader)
-        for row in csvreader:
-            yield prev
-            prev = row
-            samples.append(prev)
+        samples = list(csvreader)[:-1]
         return samples
 
     @property
