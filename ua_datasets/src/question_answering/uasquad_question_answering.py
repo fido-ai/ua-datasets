@@ -26,11 +26,12 @@ class UaSquadDataset:
             self.download()
 
         if not self._check_exists():
-            raise RuntimeError('Dataset not found. ' +
-                               'You can use download=True to download it')
+            raise RuntimeError(
+                'Dataset not found. ' +
+                'You can use download=True to download it'
+            )
 
-        self._questions, self._contexts, self._answers = UaSquadDataset.parse(
-            self.dataset_path)
+        self._questions, self._contexts, self._answers = UaSquadDataset.parse(str(self.dataset_path))
 
     @property
     def answers(self) -> List[Any]:
