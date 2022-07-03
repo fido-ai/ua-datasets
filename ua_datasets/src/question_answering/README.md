@@ -3,12 +3,25 @@ Ukrainian version of [Stanford Question Answering Dataset](https://rajpurkar.git
 
 Dataset development is still **in progress**
 
+## Demo
+### Using our API
 ```python
 from ua_datasets import UaSquadDataset
 
 qa_dataset = UaSquadDataset("data/")
-for i in range(len(qa_dataset)):
-    question, context, answer = qa_dataset[i]
+for qca in qa_dataset:
+    question, context, answer = qca
+    print("Question: " + question)
+    print("Context: " + context)
+    print("Answer: " + answer)
+```
+### Using Hugging Face 🤗 API
+```python
+from datasets import load_dataset
+
+dataset = load_dataset("FIdo-AI/ua-squad", field="data")
+for qca in dataset['train']:
+    question, context, answer = qca['Question'], qca['Context'], qca['Answer']
     print("Question: " + question)
     print("Context: " + context)
     print("Answer: " + answer)

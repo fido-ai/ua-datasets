@@ -6,7 +6,7 @@ from typing import Any, Tuple, List
 
 class UaSquadDataset:
 
-    _data = 'https://github.com/fido-ai/ua-datasets/releases/download/v0.0.1/ua_squad_dataset.json'
+    _data = 'https://huggingface.co/datasets/FIdo-AI/ua-squad/resolve/main/ua_squad_dataset.json'
 
     def __init__(self, root: str, download: bool = True) -> None:
         """ Ukrainian Stanford Question Answering Dataset
@@ -62,7 +62,7 @@ class UaSquadDataset:
         with open(file_path, 'r', encoding='utf8') as file:
             json_obj = json.load(file)
 
-        for qca in json_obj:
+        for qca in json_obj['data']:
             questions.append(qca['Question'])
             contexts.append(qca['Context'])
             answers.append(qca['Answer'])
