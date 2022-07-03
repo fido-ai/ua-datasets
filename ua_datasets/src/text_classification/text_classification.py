@@ -1,7 +1,7 @@
 import csv
 import pathlib
 from urllib import request
-from typing import Tuple, List, Set
+from typing import Tuple, List, Set, Optional
 
 
 class NewsClassificationDataset:
@@ -73,13 +73,13 @@ class NewsClassificationDataset:
         return set([row[self._columns.index('target')]
                     for row in self._data[:-1]])
 
-    def __getitem__(self, idx: int) -> Tuple[str]:
+    def __getitem__(self, idx: int) -> Tuple[str, str, str, Optional[List[str]]]:
         title, text, tags, target = self._data[idx]
         if self.return_tags:
             tags = self._preprocess_tags(tags)
-            return title, text, tags, target
+            return title, text, target, tags
         else:
-            return title, text, target
+            return title, text, target, None
 
     @staticmethod
     def _preprocess_tags(tags: str) -> List[str]:

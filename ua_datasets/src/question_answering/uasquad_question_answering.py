@@ -1,7 +1,7 @@
 import json
 from urllib import request
 from pathlib import Path
-from typing import Any, Tuple, List
+from typing import Tuple, List
 
 
 class UaSquadDataset:
@@ -34,15 +34,15 @@ class UaSquadDataset:
         self._questions, self._contexts, self._answers = UaSquadDataset.parse(str(self.dataset_path))
 
     @property
-    def answers(self) -> List[Any]:
+    def answers(self) -> List[str]:
         return self._answers
 
     @property
-    def contexts(self) -> List[Any]:
+    def contexts(self) -> List[str]:
         return self._contexts
 
     @property
-    def questions(self) -> List[Any]:
+    def questions(self) -> List[str]:
         return self._questions
 
     def download(self) -> None:
@@ -56,7 +56,7 @@ class UaSquadDataset:
             f.write(text)
 
     @staticmethod
-    def parse(file_path: str) -> Tuple[List[Any], List[Any], List[Any]]:
+    def parse(file_path: str) -> Tuple[List[str], List[str], List[str]]:
         questions, contexts, answers = list(), list(), list()
 
         with open(file_path, 'r', encoding='utf8') as file:
@@ -69,7 +69,7 @@ class UaSquadDataset:
 
         return questions, contexts, answers
 
-    def __getitem__(self, idx: int) -> Tuple[Any, Any, Any]:
+    def __getitem__(self, idx: int) -> Tuple[str, str, str]:
         question = self._questions[idx]
         context = self._contexts[idx]
         answer = self._answers[idx]

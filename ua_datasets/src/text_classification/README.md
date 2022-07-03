@@ -9,8 +9,18 @@ Dataset development is still __in progress__
 
 ```python
 from ua_datasets import NewsClassificationDataset
-train_data = NewsClassificationDataset(root = 'data/', split = 'train', return_tags = True)
-test_data = NewsClassificationDataset(root = 'data/', split = 'test', return_tags = True)
+
+train_data = NewsClassificationDataset(root='data/', split='train', return_tags=True)
+test_data = NewsClassificationDataset(root='data/', split='test', return_tags=True)
+
+for item in train_data:
+    title, text, tags, target = item
+    print(title, text, tags, target)
+
+for item in test_data:
+    title, text, tags, target = item
+    print(title, text, tags, target)
+
 ```
 
 ## Dataset Structure
