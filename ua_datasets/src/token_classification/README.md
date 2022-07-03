@@ -6,12 +6,12 @@ https://lab.mova.institute/files/robochyi_tb.conllu.txt
 
 ```python
 from ua_datasets import MovaInstitutePOSDataset
+
 mova = MovaInstitutePOSDataset(root='data/', download=True)
-# returns all samples(lists in list).
-mova.data
-# returns corresponds tags.
-mova.targets 
+print(mova.data)
+print(mova.labels)
 ```
+
 # Dataset Structure #
 Parameters: </br>
 - `root` : Directory path

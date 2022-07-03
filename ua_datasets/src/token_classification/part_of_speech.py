@@ -11,42 +11,45 @@ class MovaInstitutePOSDataset:
         self.root = Path(root)
         self.file_name = 'mova_institute_pos_dataset.txt'
         self.dataset_path = self.root / self.file_name
+
         if download:
             self.download()
 
         if not self._check_exists():
-            raise RuntimeError('Dataset not found.' +
-                               ' You can use download=True to download it')
+            raise RuntimeError(
+                'Dataset not found.' +
+                ' You can use download=True to download it'
+            )
 
-        self._samples, self._targets = self._load_data()
+        self._samples, self._labels = self._load_data()
 
     @property
     def labels(self) -> List[Any]:
-        return self._targets
+        return self._labels
 
     @property
     def data(self) -> List[Any]:
         return self._samples
 
     def _load_data(self) -> Tuple[List[Any], List[Any]]:
-        samples, targets = list(), list()
-        curr_sample, curr_target = list(), list()
+        samples, labels = list(), list()
+        curr_sample, curr_label = list(), list()
         with open(self.dataset_path, 'r', encoding='utf8') as file:
-            for line in file[:-1]:
+            for line in file:
                 if line[0].isdigit():
-                    idx, word_sample, _, word_target, *_ = line.split('\t')
+                    idx, word_sample, _, word_label, *_ = line.split('\t')
                     curr_sample.append(word_sample)
-                    curr_target.append(word_target)
+                    curr_label.append(word_label)
                 elif line[0] == '\n':
                     samples.append(curr_sample)
-                    targets.append(curr_target)
-                    curr_sample, curr_target = list(), list()
-        return samples, targets
+                    labels.append(curr_label)
+                    curr_sample, curr_label = list(), list()
+        return samples, labels
 
     def __getitem__(self, idx: int) -> Tuple[Any, Any]:
         sample = self._samples[idx]
-        target = self._targets[idx]
-        return sample, target
+        label = self._labels[idx]
+        return sample, label
 
     def __len__(self) -> int:
         return len(self._samples)
