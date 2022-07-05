@@ -1,26 +1,39 @@
-# Ukrainian News
+# UA-News
 
 ## Dataset Summary
 
 Ukrainian News is a collection of more than 150 thousand news articles, gathered from more than 20 news resources. Dataset samples are divided into 5 categories: `політика`, `спорт`, `новини`, `бізнес`, `технології`. The dataset is provided by the non-profit student's organization FIdo.ai (machine learning research division of [FIdo](https://www.facebook.com/fido.naukma/), National University of Kyiv-Mohyla Academy) for research purposes in data mining (classification, clustering, keywords extraction, etc.)
 
-Dataset development is still __in progress__
+[Raw dataset link](https://huggingface.co/datasets/FIdo-AI/ua-news/tree/main)
 
+Dataset development is still **in progress**
+
+## Demo
+
+### Using our API
 
 ```python
 from ua_datasets import NewsClassificationDataset
 
 train_data = NewsClassificationDataset(root='data/', split='train', return_tags=True)
-test_data = NewsClassificationDataset(root='data/', split='test', return_tags=True)
 
 for item in train_data:
     title, text, tags, target = item
     print(title, text, tags, target)
+```
 
-for item in test_data:
-    title, text, tags, target = item
-    print(title, text, tags, target)
+### Using Hugging Face 🤗 API
 
+```python
+from datasets import load_dataset
+
+dataset = load_dataset("FIdo-AI/ua-news")
+for item in dataset["train"]:
+    title, text, tags, target = item["title"], item["text"], item["tags"], item["target"]
+    print("Title: " + title)
+    print("Text: " + text)
+    print("Tags: " + tags)
+    print("Target: " + target)
 ```
 
 ## Dataset Structure

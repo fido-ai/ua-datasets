@@ -1,10 +1,17 @@
 # UA-SQuAD
+
+## Dataset Summary
+
 Ukrainian version of [Stanford Question Answering Dataset](https://rajpurkar.github.io/SQuAD-explorer/)
+
+[Raw dataset link](https://huggingface.co/datasets/FIdo-AI/ua-squad/tree/main)
 
 Dataset development is still **in progress**
 
 ## Demo
+
 ### Using our API
+
 ```python
 from ua_datasets import UaSquadDataset
 
@@ -15,7 +22,9 @@ for qca in qa_dataset:
     print("Context: " + context)
     print("Answer: " + answer)
 ```
+
 ### Using Hugging Face 🤗 API
+
 ```python
 from datasets import load_dataset
 

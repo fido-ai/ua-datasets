@@ -29,12 +29,15 @@ pip install ua_datasets
 
 ## Available Datasets
 
-#### <a href="https://github.com/fido-ai/ua-datasets/tree/main/ua_datasets/src/text_classification">Text classification </a>
+#### [Question Answering (UA-SQuAD)](https://github.com/fido-ai/ua-datasets/tree/main/ua_datasets/src/question_answering)
 
-#### <a href="https://github.com/fido-ai/ua-datasets/tree/main/ua_datasets/src/token_classification">Token classification </a>
+#### [Text Classification (UA-News)](https://github.com/fido-ai/ua-datasets/tree/main/ua_datasets/src/text_classification)
 
-#### <a href="https://github.com/fido-ai/ua-datasets/tree/main/ua_datasets/src/question_answering">Question Answering </a>
+#### [Token Classification (Mova Institute Part of Speech)](https://github.com/fido-ai/ua-datasets/tree/main/ua_datasets/src/token_classification")
 
+## Latest Updates
+
+05.07.22 - Added HuggingFace API for QnA (UA-SQuAD) and Text Classification (UA-News) datasets
 
 ## Contribution
 In case you are willing to contribute (update any part of the library, add your dataset) do not hesitate to connect through [GitHub Issue](https://github.com/fido-ai/ua-datasets/issues/new/choose). Thanks in advance for your contribution! 
