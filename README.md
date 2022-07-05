@@ -33,7 +33,7 @@ pip install ua_datasets
 
 #### [Text Classification (UA-News)](https://github.com/fido-ai/ua-datasets/tree/main/ua_datasets/src/text_classification)
 
-#### [Token Classification (Mova Institute Part of Speech)](https://github.com/fido-ai/ua-datasets/tree/main/ua_datasets/src/token_classification")
+#### [Token Classification (Mova Institute Part of Speech)](https://github.com/fido-ai/ua-datasets/tree/main/ua_datasets/src/token_classification)
 
 ## Latest Updates
 
