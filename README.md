@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img src="https://github.com/fido-ai/ua-datasets/blob/main/assets/NaUKMA.png" width="350" title="hover text" alt="NaUKMA FIdo Logo">
+  <img src="https://github.com/fido-ai/ua-datasets/blob/main/imgs/NaUKMA.png" width="350" title="hover text" alt="NaUKMA FIdo Logo">
 </p>
 
 <h1 align="center">

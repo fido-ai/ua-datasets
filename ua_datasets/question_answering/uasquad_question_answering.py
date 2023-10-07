@@ -13,13 +13,14 @@ class UaSquadDataset:
 
         Args:
             root (:obj: `str`): Root directory where data will be stored
-            download (:obj: `bool`, optional): Whether to download data to the root directory. If the data
+            download (:obj: `bool`, optional): Whether to download data to the root 
+                directory. If the data
             already exists, it will not be downloaded again
 
         """
         self.data_link = self._data
         self.root = Path(root)
-        self.file_name = f'ua_squad_dataset.json'
+        self.file_name = 'ua_squad_dataset.json'
         self.dataset_path = self.root / self.file_name
 
         if download:
@@ -31,7 +32,8 @@ class UaSquadDataset:
                 'You can use download=True to download it'
             )
 
-        self._questions, self._contexts, self._answers = UaSquadDataset.parse(str(self.dataset_path))
+        self._questions, self._contexts, self._answers = self.parse(
+            str(self.dataset_path))
 
     @property
     def answers(self) -> List[str]:
