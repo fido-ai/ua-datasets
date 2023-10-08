@@ -15,7 +15,7 @@
     <a href="https://www.repostatus.org/badges/0.1.0/active.svg"><img src="https://www.repostatus.org/badges/0.1.0/active.svg" alt="Repo Status"/></a>
 </p>
 
-__ua_datasets__ is a collection of Ukrainian language datasets. Our aim is to build a benchmark for research related to 
+__UA-datasets__ is a collection of Ukrainian language datasets. Our aim is to build a benchmark for research related to 
 natural language processing in Ukrainian.
 
 This library is provided by FIdo.ai (machine learning research division of the non-profit student's organization
@@ -44,10 +44,13 @@ In case you are willing to contribute (update any part of the library, add your 
 Let's make the Ukrainian language even greater!
 
 ## Citation
-```bib
-@article{
-  title={ua_datasets: a collection of Ukrainian language datasets},
-  author={Bogdan Ivanyuk-Skulskiy, Anton Zaliznyi, Oleksand Reshetar, Oleksiy Protsyk, Bohdan Romanchuk, Vladyslav Shpihanovych},
-  year={2021}
+```bibtex
+@software{ua_datasets_2021,
+  author = {Ivanyuk-Skulskiy, Bogdan and Zaliznyi, Anton and Reshetar, Oleksand and Protsyk, Oleksiy and Romanchuk, Bohdan and Shpihanovych, Vladyslav},
+  month = oct,
+  title = {ua_datasets: a collection of Ukrainian language datasets},
+  url = {https://github.com/fido-ai/ua-datasets},
+  version = {0.0.1},
+  year = {2021}
 }
 ```
