@@ -27,7 +27,7 @@ jobs:
 
       - name: Lint with Ruff
         run: |
-          ruff --ignore=F401,E501 --format=github --target-version=py37 .
+          ruff --ignore=F401,E501 --output-format=github --target-version=py37 .
         continue-on-error: true
 
       - name: Test with pytest
