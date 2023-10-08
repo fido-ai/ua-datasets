@@ -29,8 +29,8 @@ jobs:
 
       - name: Build docs
         run: |
-          mkdocs build
-          mkdocs build
+          mkdocs build --config-file ./mkdocs.yml
+          mkdocs build --config-file ./mkdocs.yml
 
       - name: Upload docs
         uses: actions/upload-artifact@v3
