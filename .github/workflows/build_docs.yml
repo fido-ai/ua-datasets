@@ -33,7 +33,7 @@ jobs:
           mkdocs build
 
       - name: Upload docs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: docs
           path: site  # where `mkdocs build` puts the built site
