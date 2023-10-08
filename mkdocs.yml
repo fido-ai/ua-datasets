@@ -92,9 +92,9 @@ nav:
     - 'index.md'
     - 'citation.md'
     - Examples:
-        - UA-SQUAD: 'examples/basic-examples.md'
-        - Mova Institute POS: 'examples/coupled_odes.ipynb'
-        - UA News classification: 'examples/stiff_ode.ipynb'
+        - UA-SQUAD: 'examples/ua_squad.ipynb'
+        - Mova Institute POS: 'examples/mova_pos.ipynb'
+        - UA News classification: 'examples/ua_news.ipynb'
     - Further details:
         - 'further_details/acknowledgements.md'
         - 'further_details/benchmarks.md'
