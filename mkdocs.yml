@@ -92,7 +92,7 @@ nav:
     - 'index.md'
     - 'citation.md'
     - Examples:
-        - UA-SQUAD: 'examples/ua_squad.md'
+        - UA-SQuAD: 'examples/ua_squad.md'
         - Mova Institute POS: 'examples/mova_pos.md'
         - UA News classification: 'examples/ua_news.md'
     - Further details:

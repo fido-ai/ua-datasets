@@ -1,41 +1,31 @@
 # Mova Institute Part of Speech Dataset
-This repository is created for the Part of Speech tagging task to train a model using the Ukrainian language.  
-Dataset for the train are available at 
-https://lab.mova.institute/files/robochyi_tb.conllu.txt
+[Mova Institute](https://mova.institute) Part of Speech tagging dataset to train a model using the Ukrainian language.  
 
+!!! Info
+    Total number of files: 647  
+    Tokens: 141 286  
+    Words: 111 739  
+    Sentences: 8016  
 
+## Example of usage
+
+### Our API
 ```python
 from ua_datasets import MovaInstitutePOSDataset
 
 mova = MovaInstitutePOSDataset(root='data/', download=True)
+
 print(mova.data)
 print(mova.labels)
 ```
 
-# Dataset Structure #
-Parameters: </br>
-- `root` : Directory path
-- `download`: Whether to download data
-
-
 Sample output:
 ```python
-Sample: ['У', 'домі', 'римського', 'патриція', 'Руфіна', 'була', 'прегарна', 'фреска', ',', 'зображення', 'Венери', 'та', 'Адоніса', '.']
-Labels: ['ADP', 'NOUN', 'ADJ', 'NOUN', 'PROPN', 'VERB', 'ADJ', 'NOUN', 'PUNCT', 'NOUN', 'PROPN', 'CCONJ', 'PROPN', 'PUNCT']
+Sample: ['У', 'домі', 'римського', 'патриція', 'Руфіна', 'була', 'прегарна', 'фреска', ',', ...]
+Labels: ['ADP', 'NOUN', 'ADJ', 'NOUN', 'PROPN', 'VERB', 'ADJ', 'NOUN', 'PUNCT', ...]
 ```
-General info 
-=======
 
-Total amount of files: 647  
-Tokens: 141 286  
-Words: 111 739  
-Sentences: 8016  
-
-Labels info
-=======
-
-<details>
- <summary>Click to expand</summary>
+## Labels description
  
 |Primary parts of speech|Definition         |Example               
 | -------------     |:--------------------------:|:---------------------------------:|
@@ -47,22 +37,21 @@ Labels info
 |PREP         |Прийменник         |в,у,на,під,за           |
 |CONJ         |Сполучник          |і,та,й,але,а            |
 |PART         |Частка           |не,хай,нехай,де,аби        |        
-|Additional parts of speech  |
+|__Additional parts of speech__  |
 |PRON            |Займенник      |ти,ми,вони,я            |
 |ADJP            |Дієприкметник    |Кохана,написана,прочитана,заспівана|
 |NUMR            |Порядковий числівник|перший,сотий,другий        |
 
-Samples and corresponded labels can be seen below:
+
+Samples and corresponding labels:
 ```   
-У[ADP] домі[NOUN] римського[ADJ] патриція[NOUN] Руфіна[PROPN] була[VERB] прегарна[ADJ] фреска[NOUN],[PUNCT] зображення[NOUN] Венери[PROPN] та[CCONJ] Адоніса[PROPN].[PUNCT]
+У[ADP] домі[NOUN] римського[ADJ] патриція[NOUN] Руфіна[PROPN] була[VERB] прегарна[ADJ] фреска[NOUN] ...
 
 Ходить[VERB] постійно[ADV] у[PREP] драній[ADJP].
-   
+
 Зробив[VERB] перший[NUMR] крок[NOUN] для[PREP] неї[PRON].
 
-Якось[ADV] зібралися[VERB] у[PREP] нього[PRON],[PUNCT] ховаючися[VERB] від[PREP] переслідувань[NOUN],[PUNCT] одновірці[NOUN] дружини[NOUN] – християнки[NOUN].[PUNCT]
-
-Й[CONJ] одразу[ADV] ж[PART] узялися[VERB] замазувати[VERB] стіну[NOUN],[PUNCT] певні[ADJ] свого[PRON] права[NOUN] негайно[ADV] знищити[VERB] гріховне[ADJ],[PUNCT] як[SCONJ] на[ADP] їх[DET] погляд[NOUN],[PUNCT] мальовидло[NOUN].[PUNCT]
+Якось[ADV] зібралися[VERB] у[PREP] нього[PRON],[PUNCT] ховаючися[VERB] від[PREP] переслідувань[NOUN] ...
 ```
-More info you can find [here](https://github.com/mova-institute/zoloto/blob/master/docs/tagset.md#%D1%80%D0%B8%D1%81%D0%B8-%D1%84%D0%BE%D1%80%D0%BC)
-</details>
+More detailed information you can find [here](https://github.com/mova-institute/zoloto/blob/master/docs/tagset.md#%D1%80%D0%B8%D1%81%D0%B8-%D1%84%D0%BE%D1%80%D0%BC)
+

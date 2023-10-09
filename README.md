@@ -15,7 +15,7 @@
     <a href="https://www.repostatus.org/badges/0.1.0/active.svg"><img src="https://www.repostatus.org/badges/0.1.0/active.svg" alt="Repo Status"/></a>
 </p>
 
-__UA-datasets__ is a collection of Ukrainian language datasets. Our aim is to build a benchmark for research related to 
+[__UA-datasets__](https://fido-ai.github.io/ua-datasets/) is a collection of Ukrainian language datasets. Our aim is to build a benchmark for research related to 
 natural language processing in Ukrainian.
 
 This library is provided by FIdo.ai (machine learning research division of the non-profit student's organization
@@ -23,21 +23,19 @@ This library is provided by FIdo.ai (machine learning research division of the n
 
 ## Installation
 The library can be installed from PyPi in your virtual environment (e.g. venv, conda env)
-```bash
+```python
 pip install ua_datasets
 ```
 
-## Available Datasets
-
-#### [Question Answering (UA-SQuAD)](https://github.com/fido-ai/ua-datasets/tree/main/ua_datasets/src/question_answering)
-
-#### [Text Classification (UA-News)](https://github.com/fido-ai/ua-datasets/tree/main/ua_datasets/src/text_classification)
-
-#### [Token Classification (Mova Institute Part of Speech)](https://github.com/fido-ai/ua-datasets/tree/main/ua_datasets/src/token_classification)
-
 ## Latest Updates
 
-05.07.22 - Added HuggingFace API for QnA (UA-SQuAD) and Text Classification (UA-News) datasets
+05.07.22 - Added HuggingFace API for Q&A (UA-SQuAD) and Text Classification (UA-News) datasets
+
+## Available Datasets
+- Question Answering (UA-SQuAD)
+- Text Classification (UA-News)
+- Token Classification (Mova Institute Part of Speech)
+
 
 ## Contribution
 In case you are willing to contribute (update any part of the library, add your dataset) do not hesitate to connect through [GitHub Issue](https://github.com/fido-ai/ua-datasets/issues/new/choose). Thanks in advance for your contribution! 
