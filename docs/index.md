@@ -11,8 +11,17 @@ The library can be installed from PyPi in your virtual environment (e.g. venv, c
 pip install ua_datasets
 ```
 
-
 ## Quick example
+```python
+from ua_datasets import UaSquadDataset
+
+qa_dataset = UaSquadDataset("data/", download=True)
+
+for question, context, answer in qa_dataset:
+    print("Question: " + question)
+    print("Context: " + context)
+    print("Answer: " + answer)
+```
 
 
 ## Citation
