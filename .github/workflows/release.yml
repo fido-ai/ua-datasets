@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Release
-        uses: KyloRen1/action_update_python_project@v1
+        uses: patrick-kidger/action_update_python_project@v1
         with:
             python-version: "3.11"
             test-script: |
