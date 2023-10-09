@@ -8,6 +8,7 @@ The goal of __UA-Bench__ is to track the real progress in Ukrainian language mod
 | Method | Test results | Extra data | Arichitecture | Venue               
 | ------------- |:--------:|:-------:|:------:|:------:|
 
+- [robinhda/ukrainian-qa](https://github.com/robinhad/ukrainian-qa)
 
 ## UA-News
 
