@@ -19,7 +19,7 @@ jobs:
                 python -m test
             pypi-token: ${{ secrets.pypi_token }}
             github-user: KyloRen1
-            github-token: ${{ github.token }}s
+            github-token: ${{ github.token }}
             email-user: ${{ secrets.email_user }}
             email-token: ${{ secrets.email_token }}
             email-server: ${{ secrets.email_server }}
