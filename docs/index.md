@@ -5,6 +5,12 @@ natural language processing in Ukrainian.
 This library is provided by FIdo.ai (machine learning research division of the non-profit student's organization
 [FIdo](https://www.facebook.com/fido.naukma/), National University of Kyiv-Mohyla Academy) for research purposes.
 
+
+### Availabel datasets
+- Question answering: UA-SQuAD
+- Text classification: UA-News
+- Part-of-speech tagging: Mova Institute Part of Speech Dataset
+
 ## Installation
 The library can be installed from PyPi in your virtual environment (e.g. venv, conda env)
 ```python
