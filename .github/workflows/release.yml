@@ -5,11 +5,13 @@ on:
     branches:
       - main
 
+permissions:
+  actions: write
+  id-token: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      action: write
     steps:
       - name: Release
         uses: patrick-kidger/action_update_python_project@v1
