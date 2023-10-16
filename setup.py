@@ -1,92 +1,38 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-# Note:
-# To use the "upload" functionality of this file, you must:
-#   $ pipenv install twine --dev
-# To publish the package:
-#   $ setup.py
-
-import os
-import sys
-from shutil import rmtree
-from setuptools import find_packages, setup, Command
-
-NAME = "ua-datasets"
-DESCRIPTION = "A collection of ukrainian language datasets"
-URL = "https://github.com/fido-ai/ua-datasets"
-# EMAIL = "me@example.com"
-AUTHOR = "FIdo AI"
-REQUIRES_PYTHON = ">=3.7.0"
-VERSION = "0.0.1"
-REQUIRED = [
-]
-EXTRAS = {
-    # Optional packages
-}
-
-here = os.path.abspath(os.path.dirname(__file__))
-print(here)
-
-# Import the README and use it as the long-description.
-# Note: this will only work if "README.md" is present in your MANIFEST.in file!
-try:
-    with open(os.path.join(here, "README.md"), encoding="utf-8") as f:
-        LONG_DESCRIPTION = f.read()
-except FileNotFoundError:
-    LONG_DESCRIPTION = DESCRIPTION
+import re
+import pathlib 
+import setuptools
 
 
-class UploadCommand(Command):
-    """Support setup.py upload"""
+_here = pathlib.Path()
 
-    description = "Build and publish the package"
-    user_options = []
-
-    @staticmethod
-    def status(s):
-        """Prints things in bold."""
-        print("\033[1m{0}\033[0m".format(s))
-
-    def initialize_options(self):
-        pass
-
-    def finalize_options(self):
-        pass
-
-    def run(self):
-        try:
-            self.status("Removing previous builds...")
-            rmtree(os.path.join(here, "dist"))
-        except OSError:
-            pass
-
-        self.status("Building Source and Wheel (universal) distribution...")
-        os.system("{0} setup.py sdist bdist_wheel --universal".format(sys.executable))
-
-        self.status("Uploading the package to PyPI via Twine...")
-        os.system("twine upload dist/*")
-
-        self.status("Pushing git tags...")
-        os.system("git tag v{0}".format(VERSION))
-        os.system("git push --tags")
-
-        sys.exit()
+name = "ua-datasets"
+author = "FIdo AI"
+description = "A collection of ukrainian language datasets"
+python_requires = ">=3.7.0"
+url = "https://github.com/fido-ai/" + name
 
 
-setup(
-    name=NAME,
-    version=VERSION,
-    description=DESCRIPTION,
-    long_description=LONG_DESCRIPTION,
+with open(_here / name.replace('-', '_') / "__init__.py") as f:
+    meta_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]", f.read(), re.M)
+    if meta_match:
+        version = meta_match.group(1)
+    else:
+        raise RuntimeError("Unable to find __version__ string")
+
+with open(_here / "README.md" , "r") as f:
+    readme = f.read()
+
+
+setuptools.setup(
+    name=name,
+    version=version,
+    author=author,
+    description=description,
+    long_description=readme,
     long_description_content_type="text/markdown",
-    author=AUTHOR,
-    # author_email=EMAIL,
-    python_requires=REQUIRES_PYTHON,
-    url=URL,
-    packages=find_packages(exclude=["tests", "*.tests", "*.tests.*", "tests.*"]),
-    install_requires=REQUIRED,
-    extras_require=EXTRAS,
+    python_requires=python_requires,
+    url=url,
+    install_requires=[],
     include_package_data=True,
     license="MIT",  # Don't forget to change classifiers if you change the license
     classifiers=[
@@ -99,7 +45,7 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.7",
     ],
-    cmdclass={
-        "upload": UploadCommand,
-    },
+    packages=setuptools.find_packages(
+        exclude=["tests", "*.tests", "*.tests.*", "tests.*"]
+    ),
 )

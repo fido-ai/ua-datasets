@@ -10,13 +10,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Release
-        uses: patrick-kidger/action_update_python_project@v2
+        uses: patrick-kidger/action_update_python_project@v1
         with:
             python-version: "3.11"
             test-script: |
                 python -m pip install pytest
                 cp -r ${{ github.workspace }}/test ./test
-                python -m test
+                pytest  --verbose --disable-warnings
             pypi-token: ${{ secrets.pypi_token }}
             github-user: KyloRen1
             github-token: ${{ github.token }}
