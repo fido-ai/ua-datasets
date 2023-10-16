@@ -1,4 +1,4 @@
-name: Release
+name: release
 
 on:
   push:
@@ -12,7 +12,7 @@ jobs:
       # IMPORTANT: this permission is mandatory for trusted publishing
       id-token: write
     steps:
-      - name: Release
+      - name: release
         uses: patrick-kidger/action_update_python_project@v1
         with:
             python-version: "3.11"
