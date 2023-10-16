@@ -17,6 +17,7 @@ jobs:
                 python -m pip install pytest
                 cp -r ${{ github.workspace }}/test ./test
                 pytest  --verbose --disable-warnings
+            pypi-user: ${{ secrets.pypi_user }}
             pypi-token: ${{ secrets.pypi_token }}
             github-user: KyloRen1
             github-token: ${{ github.token }}
