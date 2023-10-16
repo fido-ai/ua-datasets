@@ -5,18 +5,25 @@ on:
     branches:
       - main
 
-
 jobs:
-  pypi-publish:
-    name: Release
+  build:
     runs-on: ubuntu-latest
-    # Specifying a GitHub environment is optional, but strongly encouraged
-    environment: release
     permissions:
       # IMPORTANT: this permission is mandatory for trusted publishing
       id-token: write
     steps:
-      # retrieve your distributions here
-
-      - name: Publish package distributions to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
+      - name: Release
+        uses: patrick-kidger/action_update_python_project@v1
+        with:
+            python-version: "3.11"
+            test-script: |
+                python -m pip install pytest
+                cp -r ${{ github.workspace }}/test ./test
+                pytest  --verbose --disable-warnings
+            pypi-token: ${{ secrets.pypi_token }}
+            github-user: KyloRen1
+            github-token: ${{ github.token }}
+            email-user: ${{ secrets.email_user }}
+            email-token: ${{ secrets.email_token }}
+            email-server: ${{ secrets.email_server }}
+            email-target: ${{ secrets.email_target }}
