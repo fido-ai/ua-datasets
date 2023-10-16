@@ -4,4 +4,4 @@ from ua_datasets.token_classification import MovaInstitutePOSDataset
 
 
 
-__version__ = '0.0.6'
+__version__ = '0.0.7'
