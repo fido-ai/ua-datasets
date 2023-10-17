@@ -8,9 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      # IMPORTANT: this permission is mandatory for trusted publishing
-      id-token: write
     steps:
       - name: release
         uses: patrick-kidger/action_update_python_project@v1
@@ -19,10 +16,10 @@ jobs:
             test-script: |
                 python -m pip install pytest
                 cp -r ${{ github.workspace }}/test ./test
-                pytest  --verbose --disable-warnings
+                pytest  --disable-warnings
             pypi-token: ${{ secrets.pypi_token }}
             github-user: KyloRen1
-            github-token: ${{ secrets.ACTIONS_TOKEN }}
+            github-token: ${{ github.token }}
             email-user: ${{ secrets.email_user }}
             email-token: ${{ secrets.email_token }}
             email-server: ${{ secrets.email_server }}

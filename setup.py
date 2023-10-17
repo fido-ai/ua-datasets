@@ -46,6 +46,6 @@ setuptools.setup(
         "Programming Language :: Python :: 3.7",
     ],
     packages=setuptools.find_packages(
-        exclude=["tests", "*.tests", "*.tests.*", "tests.*"]
+        exclude=["test", "test*"]
     ),
 )
