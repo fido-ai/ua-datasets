@@ -6,7 +6,7 @@ readme = "README.md"
 requires-python =">=3.7.0"
 license = {file = "LICENSE"}
 authors = [
-  {name = "FIdo AI", email = ""},
+  {name = "FIdo AI", email = "ivanyuk.skulskiy@ukma.edu.ua"},
 ]
 keywords = ["ua-datasets"]
 classifiers = [
