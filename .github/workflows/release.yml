@@ -133,14 +133,10 @@ jobs:
               generate_release_notes: true
 
         - name: Push to PyPI
-          env:
-            pypi_token: ${{ secrets.pypi_token }}
-            pypi_user: '__token__'
           if: (steps.get-versions.outputs.new-version == 'true') && (steps.test-sdist.outputs.result == 'true') && (steps.test-bdist-wheel.outputs.result == 'true')
           uses: pypa/gh-action-pypi-publish@release/v1
           with:
-              user: $pypi_user
-              password: $pypi_token
+              password: ${{ secrets.pypi_token }}
 
         - name: Email on success
           env:
