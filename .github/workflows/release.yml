@@ -7,21 +7,184 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.11]
+        pypi-token: ${{ secrets.pypi_token }}
+        github-user: KyloRen1
+        github-token: ${{ github.token }}
+        email-user: ${{ secrets.email_user }}
+        email-token: ${{ secrets.email_token }}
+        email-server: ${{ secrets.email_server }}
+        email-target: ${{ secrets.email_target }}
+        email-starttls: 'True'
+        os: ['ubuntu-latest']
+    runs-on: ${{ matrix.os }}
     steps:
-      - name: release
-        uses: patrick-kidger/action_update_python_project@v3
-        with:
-            python-version: "3.11"
-            test-script: |
+        - name: Checkout code
+          uses: actions/checkout@v2
+
+        - name: Set up Python ${{ matrix.python-version }}
+          uses: actions/setup-python@v2
+          with:
+              python-version: ${{ matrix.python-version }}
+
+        - name: Setup
+          shell: bash
+          run: |
+              python -m pip install --upgrade pip
+              python -m pip install build
+              python -m build
+
+        - name: Get versions
+          id: get-versions
+          shell: bash
+          run: |
+              python -c "
+              import subprocess
+              import tomllib
+
+              vparse = lambda x: tuple(map(int, x.split('.')))
+
+              with open('pyproject.toml', 'rb') as f:
+                  data = tomllib.load(f)
+              name = data['project']['name']
+              checkout_version = data['project']['version']
+
+              pypi_version = subprocess.run(f'python -m pip index versions {name}',
+                                            shell=True, capture_output=True).stdout
+              pypi_version = pypi_version.split(b'\n', 1)[0].split(b' ')[1][1:-1].decode('utf-8')
+              new_version = str(vparse(checkout_version) > vparse(pypi_version)).lower()
+              subprocess.run(f'echo name={name} >> $GITHUB_OUTPUT', shell=True)
+              subprocess.run(f'echo tag=v{checkout_version} >> $GITHUB_OUTPUT', shell=True)
+              subprocess.run(f'echo new-version={new_version} >> $GITHUB_OUTPUT', shell=True)
+              print(f'Got checkout_version={vparse(checkout_version)!r}')
+              print(f'Got pypi_version={vparse(pypi_version)!r}')
+              print(f'Setting name={name}')
+              print(f'Setting tag=v{checkout_version}')
+              print(f'Setting new-version={new_version}')
+              "
+
+        - name: Test sdist
+          id: test-sdist
+          if: steps.get-versions.outputs.new-version == 'true'
+          shell: bash
+          run: |
+              python -m pip install dist/*.tar.gz
+              cd $(mktemp -d)
+              set +e
+              bash -c "
                 python -m pip install pytest
                 cp -r ${{ github.workspace }}/test ./test
                 pytest  --disable-warnings
-            pypi-token: ${{ secrets.pypi_token }}
-            github-user: KyloRen1
-            github-token: ${{ github.token }}
-            email-user: ${{ secrets.email_user }}
-            email-token: ${{ secrets.email_token }}
-            email-server: ${{ secrets.email_server }}
-            email-target: ${{ secrets.email_target }}
-            email-starttls: 'True'
+              "
+              if [ "$?" -eq 0 ]
+              then
+                  echo result=true >> $GITHUB_OUTPUT
+              else
+                  echo result=false >> $GITHUB_OUTPUT
+              fi
+              set -e
+              python -m pip uninstall -y -r <(pip freeze)
+              cd ${{ github.workspace }}
+
+        - name: Test bdist_wheel
+          id: test-bdist-wheel
+          if: steps.get-versions.outputs.new-version == 'true'
+          shell: bash
+          run: |
+              python -m pip install dist/*.whl
+              cd $(mktemp -d)
+              set +e
+              bash -c "
+                python -m pip install pytest
+                cp -r ${{ github.workspace }}/test ./test
+                pytest  --disable-warnings
+              "
+              if [ "$?" -eq 0 ]
+              then
+                  echo result=true >> $GITHUB_OUTPUT
+              else
+                  echo result=false >> $GITHUB_OUTPUT
+              fi
+              set -e
+              python -m pip uninstall -y -r <(pip freeze)
+              cd ${{ github.workspace }}
+
+        - name: Logging
+          shell: bash
+          run: |
+              echo new-version=${{ steps.get-versions.outputs.new-version }}
+              echo sdist-result=${{ steps.test-sdist.outputs.result }}
+              echo bdist-result=${{ steps.test-bdist-wheel.outputs.result }}
+
+        - name: Tag
+          if: (steps.get-versions.outputs.new-version == 'true') && (steps.test-sdist.outputs.result == 'true') && (steps.test-bdist-wheel.outputs.result == 'true')
+          shell: bash
+          run: |
+              git config --global user.email "noreply@example.com"
+              git config --global user.name "Action: Update Python project"
+              git tag "${{ steps.get-versions.outputs.tag }}" -m ""
+              git push https://${{ matrix.github-user }}:${{ matrix.github-token }}@github.com/${{ github.repository }} "${{ steps.get-versions.outputs.tag }}"
+
+        - name: GitHub release
+          if: (steps.get-versions.outputs.new-version == 'true') && (steps.test-sdist.outputs.result == 'true') && (steps.test-bdist-wheel.outputs.result == 'true')
+          uses: softprops/action-gh-release@v1
+          with:
+              name: "${{ steps.get-versions.outputs.name }} ${{ steps.get-versions.outputs.tag }}"
+              body: "Autogenerated release notes as follows:"
+              tag_name: "${{ steps.get-versions.outputs.tag }}"
+              token: ${{ matrix.github-token }}
+              generate_release_notes: true
+
+        - name: Push to PyPI
+          if: (steps.get-versions.outputs.new-version == 'true') && (steps.test-sdist.outputs.result == 'true') && (steps.test-bdist-wheel.outputs.result == 'true')
+          uses: pypa/gh-action-pypi-publish@release/v1
+          with:
+              user: ${{ matrix.pypi-user }}
+              password: ${{ matrix.pypi-token }}
+
+        - name: Email on success
+          if: (steps.get-versions.outputs.new-version == 'true') && (steps.test-sdist.outputs.result == 'true') && (steps.test-bdist-wheel.outputs.result == 'true')
+          shell: bash
+          run: |
+              python -c "
+              from smtplib import SMTP
+              from email.mime.text import MIMEText
+              from_ = '${{ matrix.email-user }}'
+              to = '${{ matrix.email-target }}'
+              msg = MIMEText('')
+              msg['From'] = from_
+              msg['To'] = to
+              msg['Subject'] = 'Deploy success | ${{ github.repository }} ${{ steps.get-versions.outputs.tag }}'
+              with SMTP('${{ matrix.email-server }}') as s:
+                  if ${{ matrix.email-starttls }} == True:
+                      s.starttls()
+                  s.login('${{ matrix.email-user }}', '${{ matrix.email-token }}')
+                  s.sendmail(from_, [to], msg.as_string())
+              "
+
+        - name: Email on failure
+          if: (steps.get-versions.outputs.new-version == 'true') && ((steps.test-sdist.outputs.result != 'true') || (steps.test-bdist-wheel.outputs.result != 'true'))
+          shell: bash
+          run: |
+              python -c "
+              from smtplib import SMTP
+              from email.mime.text import MIMEText
+              from_ = '${{ matrix.email-user }}'
+              to = '${{ matrix.email-target }}'
+              msg = MIMEText('')
+              msg['From'] = from_
+              msg['To'] = to
+              msg['Subject'] = 'Deploy ERROR | ${{ github.repository }} ${{ steps.get-versions.outputs.tag }}'
+              with SMTP('${{ matrix.email-server }}') as s:
+                  if ${{ matrix.email-starttls }} == True:
+                      s.starttls()
+                  s.login('${{ matrix.email-user }}', '${{ matrix.email-token }}')
+                  s.sendmail(from_, [to], msg.as_string())
+              "
+        
+        - name: Fail
+          if: (steps.get-versions.outputs.new-version == 'true') && ((steps.test-sdist.outputs.result != 'true') || (steps.test-bdist-wheel.outputs.result != 'true'))
+          shell: bash
+          run: exit 1
