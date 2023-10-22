@@ -8,7 +8,7 @@
 </h1>
 
 <p align="center">
-    <a href="https://img.shields.io/badge/Version-0.0.2-orange.svg"><img src="https://img.shields.io/badge/Version-0.0.5-green.svg" alt="Version"/></a>
+    <a href="https://img.shields.io/badge/Version-0.0.2-orange.svg"><img src="https://img.shields.io/badge/Version-0.1.1-green.svg" alt="Version"/></a>
     <a href="https://img.shields.io/badge/License-Apache%202.0-blue.svg"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License"/></a>
 </p>
 <p align="center">
