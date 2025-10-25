@@ -95,9 +95,7 @@ def download_text_with_retries(
                                 flush=True,
                             )
                         else:
-                            print(
-                                f"\rDownloading {url} {downloaded} bytes", end="", flush=True
-                            )
+                            print(f"\rDownloading {url} {downloaded} bytes", end="", flush=True)
                     data = bytes(buf)
                     # Ensure newline after completion for clean subsequent output
                     print()
