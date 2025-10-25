@@ -64,6 +64,7 @@ class MovaInstitutePOSDataset(ABCSequence, Generic[S, T]):
     max_retries: int = 3
     timeout: int = 15  # seconds for individual HTTP attempt
     expected_sha256: str | None = None
+    show_progress: bool = True
 
     dataset_path: Path = field(init=False)
     _samples: List[Sentence] = field(init=False, default_factory=list)
@@ -180,6 +181,7 @@ class MovaInstitutePOSDataset(ABCSequence, Generic[S, T]):
                 timeout=self.timeout,
                 max_retries=self.max_retries,
                 expected_sha256=self.expected_sha256,
+                show_progress=self.show_progress,
             )
         except DownloadFailure as exc:
             raise DownloadError(str(exc)) from exc

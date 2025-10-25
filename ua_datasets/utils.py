@@ -14,7 +14,11 @@ from typing import Any, Callable, Optional
 from urllib.error import HTTPError, URLError
 from urllib.request import urlopen
 
-__all__ = ["DownloadFailure", "atomic_write_text", "download_text_with_retries"]
+__all__ = [
+    "DownloadFailure",
+    "atomic_write_text",
+    "download_text_with_retries",
+]
 
 
 class DownloadFailure(RuntimeError):
@@ -30,8 +34,13 @@ def download_text_with_retries(
     backoff_factor: float = 0.5,
     validate: Optional[Callable[[str], bool]] = None,
     opener: Callable[..., Any] = urlopen,
+    show_progress: bool = False,
+    chunk_size: int = 8192,
 ) -> str:
     """Download URL returning decoded UTF-8 text with retries & optional integrity.
+
+    Enhanced with an optional streaming progress bar (stdout) using only the
+    standard library to preserve the project's minimal dependency footprint.
 
     Parameters
     ----------
@@ -49,6 +58,10 @@ def download_text_with_retries(
         Optional predicate applied to decoded text; must return True for success.
     opener : Callable[..., Any]
         Function used to open the URL (injected for test monkeypatching).
+    show_progress : bool
+        If True, prints a simple ASCII progress indicator while streaming.
+    chunk_size : int
+        Byte size for streaming chunks when show_progress is enabled.
     """
     attempt = 0
     last_exc: Exception | None = None
@@ -57,7 +70,39 @@ def download_text_with_retries(
         try:
             # Use provided opener (enables test monkeypatching at call sites)
             with opener(url, timeout=timeout) as resp:  # nosec - caller controls domain
-                data: bytes = resp.read()
+                if show_progress:
+                    # Attempt to read content length for percentage; fallback to 0 (unknown)
+                    try:
+                        total_size = int(getattr(resp, "headers", {}).get("Content-Length", "0"))
+                    except Exception:
+                        total_size = 0
+                    downloaded = 0
+                    buf = bytearray()
+                    while True:
+                        chunk = resp.read(chunk_size)
+                        if not chunk:
+                            break
+                        buf.extend(chunk)
+                        downloaded += len(chunk)
+                        if total_size > 0:
+                            pct = downloaded / total_size * 100
+                            bar_width = 30
+                            filled = int(bar_width * downloaded / total_size)
+                            bar = "#" * filled + "-" * (bar_width - filled)
+                            print(
+                                f"\rDownloading {url} [{bar}] {pct:5.1f}% ({downloaded}/{total_size} bytes)",
+                                end="",
+                                flush=True,
+                            )
+                        else:
+                            print(
+                                f"\rDownloading {url} {downloaded} bytes", end="", flush=True
+                            )
+                    data = bytes(buf)
+                    # Ensure newline after completion for clean subsequent output
+                    print()
+                else:
+                    data = resp.read()
             if expected_sha256 is not None:
                 digest = sha256(data).hexdigest()
                 if digest.lower() != expected_sha256.lower():

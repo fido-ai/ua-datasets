@@ -360,7 +360,7 @@ wheels = [
 
 [[package]]
 name = "ua-datasets"
-version = "0.1.2"
+version = "1.0.0"
 source = { virtual = "." }
 
 [package.dev-dependencies]

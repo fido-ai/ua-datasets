@@ -7,43 +7,127 @@
     ua_datasets
 </h1>
 
-<p align="center">
-    <a href="https://img.shields.io/badge/Version-0.0.2-orange.svg"><img src="https://img.shields.io/badge/Version-0.1.1-green.svg" alt="Version"/></a>
-    <a href="https://img.shields.io/badge/License-Apache%202.0-blue.svg"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License"/></a>
-</p>
-<p align="center">
-    <a href="https://www.repostatus.org/badges/0.1.0/active.svg"><img src="https://www.repostatus.org/badges/0.1.0/active.svg" alt="Repo Status"/></a>
-</p>
+[![PyPI version](https://img.shields.io/pypi/v/ua-datasets.svg)](https://pypi.org/project/ua-datasets/)
+[![Python versions](https://img.shields.io/pypi/pyversions/ua-datasets.svg)](https://pypi.org/project/ua-datasets/)
+[![License](https://img.shields.io/pypi/l/ua-datasets.svg)](https://github.com/fido-ai/ua-datasets/blob/main/LICENSE)
+[![Downloads](https://static.pepy.tech/badge/ua-datasets)](https://pepy.tech/project/ua-datasets)
 
-[__UA-datasets__](https://fido-ai.github.io/ua-datasets/) is a collection of Ukrainian language datasets. Our aim is to build a benchmark for research related to
-natural language processing in Ukrainian.
+[![Build CI](https://github.com/fido-ai/ua-datasets/actions/workflows/ci.yml/badge.svg)](https://github.com/fido-ai/ua-datasets/actions/workflows/ci.yml)
+[![Code size](https://img.shields.io/github/languages/code-size/fido-ai/ua-datasets)](https://github.com/fido-ai/ua-datasets)
+[![Code style: Ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
+[![Type checking: mypy](https://img.shields.io/badge/type%20checking-mypy-blue.svg)](http://mypy-lang.org/)
 
-This library is provided by FIdo.ai (machine learning research division of the non-profit student's organization
-[FIdo](https://www.facebook.com/fido.naukma/), National University of Kyiv-Mohyla Academy) for research purposes.
+[**UA-datasets**](https://fido-ai.github.io/ua-datasets/) provides ready-to-use Ukrainian NLP benchmark datasets with a **single, lightweight Python API**.
+
+> Fast access to Question Answering, News Classification, and POS Tagging corpora — with automatic download, caching, and consistent iteration.
+
+### Why use this library?
+
+- **Unified API**: All datasets expose `len(ds)`, indexing, iteration, and simple frequency helpers.
+- **Robust downloads**: Automatic retries, integrity guards, and filename fallbacks for legacy splits.
+- **Zero heavy deps**: Pure Python + standard library (core loaders) for quick startup.
+- **Repro friendly**: Validation split for UA-SQuAD; classification CSV parsing with resilience to minor format drift.
+- **Tooling ready**: Works seamlessly with ruff, mypy, pytest, and uv-based workflows.
+
+
+_Maintained by the FIdo.ai research group (National University of Kyiv-Mohyla Academy)._ 
+
+## Minimal Example
+
+```python
+# Assumes `uv` workspace already synced with `uv sync` and project installed.
+
+from pathlib import Path
+from ua_datasets.question_answering import UaSquadDataset
+from ua_datasets.text_classification import NewsClassificationDataset
+from ua_datasets.token_classification import MovaInstitutePOSDataset
+
+# Question Answering (first sample)
+qa = UaSquadDataset(root=Path("./data/ua_squad"), split="train", download=True)
+print("QA samples:", len(qa))
+print("First QA triplet:", qa[0])  # (question, context, answer)
+
+# News Classification
+news = NewsClassificationDataset(root=Path("./data/ua_news"), split="train", download=True)
+title, text, target, tags = news[0]
+print("Label count:", len(news.labels), "First label:", target)
+
+# Part-of-Speech Tagging
+pos = MovaInstitutePOSDataset(root=Path("./data/mova_pos"), download=True)
+tokens, tags = pos[0]
+print(tokens[:8], tags[:8])
+```
+
+For development commands see the Installation section below.
 
 ## Installation
 
-The library can be installed from PyPi in your virtual environment (e.g. venv, conda env)
+Choose one of the following methods.
 
-```python
-pip install ua_datasets
+### 1. Using uv (recommended)
+
+Add to an existing project:
+
+```bash
+uv add ua-datasets
 ```
+
+
+<!-- markdownlint-disable MD033 -->
+<details>
+<summary><strong>2. Using pip (PyPI)</strong></summary>
+
+```bash
+# install
+pip install ua_datasets
+# upgrade
+pip install -U ua_datasets
+```
+
+ </details>
+
+<details>
+<summary><strong>3. From source (editable install)</strong></summary>
+
+```bash
+git clone https://github.com/fido-ai/ua-datasets.git
+cd ua-datasets
+pip install -e .[dev]  # if you later define optional dev extras
+```
+
+Or with uv (editable semantics via local path):
+
+```bash
+git clone https://github.com/fido-ai/ua-datasets.git
+cd ua-datasets
+uv sync --dev
+```
+
+</details>
+<!-- markdownlint-enable MD033 -->
 
 ## Latest Updates
 
-05.07.22 - Added HuggingFace API for Q&A (UA-SQuAD) and Text Classification (UA-News) datasets
+| Date | Highlights |
+|------|------------|
+| 25-10-2025 | Added validation split for UA-SQuAD and updated package code. |
+| 05-07-2022 | Added HuggingFace API for UA-SQuAD (Q&A) and UA-News (Text Classification). |
+
 
 ## Available Datasets
 
-- Question Answering (UA-SQuAD)
-- Text Classification (UA-News)
-- Token Classification (Mova Institute Part of Speech)
+| Task | Dataset | Import Class | Splits | Notes |
+|------|---------|--------------|--------|-------|
+| Question Answering | UA-SQuAD | `UaSquadDataset` | `train`, `val` | SQuAD-style JSON; automatic fallbacks for legacy validation filenames |
+| Text Classification | UA-News | `NewsClassificationDataset` | `train`, `test` | CSV (title, text, target[, tags]); optional tag parsing |
+| Token Classification | Mova Institute POS | `MovaInstitutePOSDataset` | (single corpus) | CoNLL-U like POS tagging; yields (tokens, tags) per sentence |
+
 
 
 ## Contribution
 
 In case you are willing to contribute (update any part of the library, add your dataset) do not hesitate to connect through [GitHub Issue](https://github.com/fido-ai/ua-datasets/issues/new/choose). Thanks in advance for your contribution!
-Let's make the Ukrainian language even greater!
+
 
 ## Citation
 
@@ -53,7 +137,7 @@ Let's make the Ukrainian language even greater!
   month = oct,
   title = {ua_datasets: a collection of Ukrainian language datasets},
   url = {https://github.com/fido-ai/ua-datasets},
-  version = {0.0.1},
+  version = {1.0.0},
   year = {2021}
 }
 ```

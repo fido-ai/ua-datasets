@@ -58,6 +58,7 @@ class UaSquadDataset:
     max_retries: int = 3
     timeout: int = 20  # seconds
     expected_sha256: str | None = None
+    show_progress: bool = True
 
     dataset_path: Optional[Path] = field(init=False, default=None)
     _questions: List[str] = field(init=False, default_factory=list)
@@ -140,6 +141,7 @@ class UaSquadDataset:
                     expected_sha256=self.expected_sha256,
                     validate=lambda t: t.lstrip().startswith("{") or t.lstrip().startswith("["),
                     opener=urlopen,
+                    show_progress=self.show_progress,
                 )
                 atomic_write_text(path, text)
                 return path
