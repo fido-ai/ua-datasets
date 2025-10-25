@@ -21,10 +21,13 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - uses: actions/cache@v2
+      - name: Cache build artifacts
+        uses: actions/cache@v4
         with:
-          key: ${{ github.ref }}
           path: .cache
+          key: docs-${{ runner.os }}-${{ hashFiles('pyproject.toml', 'docs/requirements.txt') }}
+          restore-keys: |
+            docs-${{ runner.os }}-
 
       - name: Install dependencies
         run: |
