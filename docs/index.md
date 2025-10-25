@@ -51,7 +51,7 @@ title, text, label, tags = news[0]
 ```
 
 POS tagging:
- 
+
 ```python
 from ua_datasets.token_classification import MovaInstitutePOSDataset
 pos = MovaInstitutePOSDataset(root=Path("./data/mova_pos"), download=True)
@@ -109,4 +109,3 @@ If you found this library useful in academic research, please cite:
 ```
 
 ⭐ Consider starring the project on [GitHub](https://github.com/fido-ai/ua-datasets) to support visibility.
-

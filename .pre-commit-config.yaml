@@ -21,12 +21,6 @@ repos:
         language: system
         pass_filenames: false
         stages: [pre-commit]
-      - id: pytest
-        name: pytest
-        entry: uv run pytest -q
-        language: system
-        pass_filenames: false
-        stages: [pre-commit]
       # Additional push-stage checks mirroring CI (non auto-fixing, format check only)
       - id: ruff-format-check
         name: ruff format (check)

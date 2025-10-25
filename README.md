@@ -30,7 +30,7 @@
 - **Tooling ready**: Works seamlessly with ruff, mypy, pytest, and uv-based workflows.
 
 
-_Maintained by the FIdo.ai research group (National University of Kyiv-Mohyla Academy)._ 
+_Maintained by the FIdo.ai research group (National University of Kyiv-Mohyla Academy)._
 
 ## Minimal Example
 
