@@ -3,7 +3,7 @@ name = "ua-datasets"
 version = "0.1.2"
 description = "A collection of ukrainian language datasets"
 readme = "README.md"
-requires-python =">=3.7.0"
+requires-python = ">=3.10"
 license = {file = "LICENSE"}
 authors = [
   {name = "FIdo AI", email = "ivanyuk.skulskiy@ukma.edu.ua"},
@@ -16,7 +16,57 @@ classifiers = [
     "Natural Language :: Ukrainian",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.7",
 ]
 urls = {repository = "https://github.com/fido-ai/ua-datasets" }
 dependencies = []
+
+[tool.setuptools]
+include-package-data = true
+packages = ["ua_datasets"]
+
+[tool.setuptools.package-data]
+"*" = [
+    "README.md",
+    "LICENSE",
+    "CITATION.cff",
+    "assets/*"
+]
+
+[dependency-groups]
+dev = [
+    "pre-commit>=2.21.0",
+    "pytest>=7.4.4",
+    "ruff>=0.14.2",
+    "mypy>=1.18.2",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+extend-select = ["I", "B", "C4", "SIM", "PT", "RUF"]
+ignore = [
+    # Example: "E501"  # managed by formatter if enabled
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["ua_datasets"]
+combine-as-imports = true
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+
+[tool.mypy]
+python_version = "3.10"
+packages = ["ua_datasets"]
+warn_unused_configs = true
+warn_return_any = true
+warn_unused_ignores = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+no_implicit_optional = true
+show_error_codes = true
+pretty = true

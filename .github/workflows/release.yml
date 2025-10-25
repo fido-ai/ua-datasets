@@ -185,7 +185,7 @@ jobs:
                   s.login('$email_user', '$email_token')
                   s.sendmail(from_, [to], msg.as_string())
               "
-        
+
         - name: Fail
           if: (steps.get-versions.outputs.new-version == 'true') && ((steps.test-sdist.outputs.result != 'true') || (steps.test-bdist-wheel.outputs.result != 'true'))
           shell: bash

@@ -7,6 +7,7 @@ Ukrainian News is a collection of more than 150 thousand news articles, gathered
 Dataset development is still **in progress**
 
 ## Dataset Structure
+
 __Parameters__:
 
 - `root` : Directory path
@@ -23,7 +24,7 @@ __Splits__:
     - File size: 324 MB
     - Number of samples: 120417
     - Target distribution
- 
+
         `політика` : 40364 (33.5%)
 
         `спорт` : 40364 (33.5%)
@@ -34,11 +35,11 @@ __Splits__:
 
         `технології` : 40364 (33.5%)
 
- - Test: 
+ - Test:
     - File size: 81 MB
     - Number of samples: 30105
     - Target distribution
- 
+
         `політика` : 40364 (33.5%)
 
         `спорт` : 40364 (33.5%)
@@ -48,7 +49,6 @@ __Splits__:
         `бізнес` : 40364 (33.5%)
 
         `технології` : 40364 (33.5%)
-    
 
 
 __Data sample__
@@ -60,7 +60,6 @@ __Data sample__
   "target" : 'новини'
  }
 ```
-
 
 ## Example of usage
 

@@ -1,9 +1,10 @@
-import pytest 
+from pathlib import Path
 
-from ua_datasets import MovaInstitutePOSDataset
+import pytest
+
+from ua_datasets.token_classification.part_of_speech import MovaInstitutePOSDataset
+
 
 @pytest.fixture(scope="module")
-def dataset(request):
-    root = request.config.getoption("--dataset-root")
-    df = MovaInstitutePOSDataset(root=root)
-    return df
+def dataset(dataset_root: Path) -> MovaInstitutePOSDataset:
+    return MovaInstitutePOSDataset(root=dataset_root, download=True)
