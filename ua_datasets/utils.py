@@ -79,7 +79,19 @@ def download_text_with_retries(
                     downloaded = 0
                     buf = bytearray()
                     while True:
-                        chunk = resp.read(chunk_size)
+                        # Some mocked/monkeypatched responses (in tests) provide a
+                        # read() method that does NOT accept a size argument OR return
+                        # the full payload on every call (no internal cursor). We:
+                        #   1. Attempt sized reads
+                        #   2. Fallback to a single full read if TypeError is raised
+                        #   3. Break immediately after a fallback full read to avoid
+                        #      an infinite loop continually re-appending identical bytes.
+                        try:
+                            chunk = resp.read(chunk_size)
+                            fallback_full_read = False
+                        except TypeError:  # signature read() -> bytes (no size param)
+                            chunk = resp.read()
+                            fallback_full_read = True
                         if not chunk:
                             break
                         buf.extend(chunk)
@@ -96,6 +108,9 @@ def download_text_with_retries(
                             )
                         else:
                             print(f"\rDownloading {url} {downloaded} bytes", end="", flush=True)
+                        if fallback_full_read:
+                            # Prevent infinite loop when mock returns whole content each call
+                            break
                     data = bytes(buf)
                     # Ensure newline after completion for clean subsequent output
                     print()
