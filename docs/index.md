@@ -1,23 +1,27 @@
-## UA-datasets in a nutshell
-__UA-datasets__ is a collection of Ukrainian language datasets. Our aim is to build a benchmark for research related to 
+# UA-datasets in a nutshell
+
+__UA-datasets__ is a collection of Ukrainian language datasets. Our aim is to build a benchmark for research related to
 natural language processing in Ukrainian.
 
 This library is provided by FIdo.ai (machine learning research division of the non-profit student's organization
 [FIdo](https://www.facebook.com/fido.naukma/), National University of Kyiv-Mohyla Academy) for research purposes.
 
-
 ### Availabel datasets
+
 - Question answering: UA-SQuAD
 - Text classification: UA-News
 - Part-of-speech tagging: Mova Institute Part of Speech Dataset
 
 ## Installation
+
 The library can be installed from PyPi in your virtual environment (e.g. venv, conda env)
+
 ```python
 pip install ua_datasets
 ```
 
 ## Quick example
+
 ```python
 from ua_datasets import UaSquadDataset
 
@@ -29,8 +33,8 @@ for question, context, answer in qa_dataset:
     print("Answer: " + answer)
 ```
 
-
 ## Citation
+
 If you found this library useful in academic research, please cite:
 
 ```bibtex

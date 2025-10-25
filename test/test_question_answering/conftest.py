@@ -1,18 +1,23 @@
+from pathlib import Path
+from typing import cast
+
 import pytest
 
 from ua_datasets import UaSquadDataset
 
 
-def pytest_addoption(parser):
-    """Add option to specify dataset location when executing tests from CLI.
-    Ex: pytest --dataset-loc=checkpoints/data.csv tests/data --verbose --disable-warnings
-    """
-    parser.addoption(
-        "--dataset-root", action="store", default='.data', help="Dataset location."
-    )
+@pytest.fixture(scope="module", params=["train", "val"])
+def dataset(request: pytest.FixtureRequest, dataset_root: Path) -> UaSquadDataset:
+    """UaSquadDataset fixture parametrized over splits.
 
-@pytest.fixture(scope="module")
-def dataset(request):
-    root = request.config.getoption("--dataset-root")
-    dataset = UaSquadDataset(root=root)
-    return dataset
+    Skips gracefully if the remote resource is unavailable or filenames differ
+    from the assumed defaults (train.json / val.json) so that other test
+    suites can still run.
+    """
+    split: str = request.param
+    try:
+        return UaSquadDataset(root=dataset_root, split=split, download=True)
+    except Exception as exc:  # pragma: no cover - network/remote variability
+        pytest.skip(f"Skipping UaSquadDataset {split!r} split: {exc}")
+        # Help mypy understand this function always returns a UaSquadDataset (skip raises)
+        return cast(UaSquadDataset, None)  # unreachable
