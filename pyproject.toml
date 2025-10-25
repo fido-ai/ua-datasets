@@ -22,7 +22,9 @@ dependencies = []
 
 [tool.setuptools]
 include-package-data = true
-packages = ["ua_datasets"]
+
+[tool.setuptools.packages.find]
+include = ["ua_datasets*"]
 
 [tool.setuptools.package-data]
 "*" = [
