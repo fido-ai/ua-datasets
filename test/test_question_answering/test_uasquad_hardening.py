@@ -18,7 +18,7 @@ def _write(root: Path, name: str, obj: object) -> Path:
     return p
 
 
-@pytest.fixture()
+@pytest.fixture
 def qa_tmp_root(tmp_path: Path) -> Path:
     return tmp_path
 

@@ -1,12 +1,6 @@
+default_stages: [pre-commit]
+
 repos:
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.4.9
-    hooks:
-      - id: ruff
-        args: ["--fix"]
-        stages: [commit]
-      - id: ruff-format
-        stages: [commit]
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
     hooks:
@@ -19,31 +13,36 @@ repos:
         additional_dependencies:
           - pytest
         args: ["--config-file", "pyproject.toml"]
-        stages: [commit]
   - repo: local
     hooks:
+      - id: ruff-check
+        name: ruff check (uv)
+        entry: uv run ruff check .
+        language: system
+        pass_filenames: false
+        stages: [pre-commit]
       - id: pytest
         name: pytest
         entry: uv run pytest -q
         language: system
         pass_filenames: false
-        stages: [commit]
+        stages: [pre-commit]
       # Additional push-stage checks mirroring CI (non auto-fixing, format check only)
       - id: ruff-format-check
         name: ruff format (check)
         entry: uv run ruff format --check .
         language: system
         pass_filenames: false
-        stages: [push]
+        stages: [pre-push]
       - id: ruff-lint-check
         name: ruff check (no fix)
         entry: uv run ruff check .
         language: system
         pass_filenames: false
-        stages: [push]
+        stages: [pre-push]
       - id: mypy-push
         name: mypy (push / non-blocking parity with CI)
         entry: uv run mypy || true
         language: system
         pass_filenames: false
-        stages: [push]
+        stages: [pre-push]

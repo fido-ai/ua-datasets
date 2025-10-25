@@ -8,7 +8,7 @@ from ua_datasets.token_classification.part_of_speech import (
 )
 
 
-@pytest.fixture()
+@pytest.fixture
 def tmp_dataset_root(tmp_path: Path) -> Path:
     return tmp_path
 
@@ -64,7 +64,7 @@ def test_multiword_tokens_ignored(tmp_dataset_root: Path) -> None:
 
 
 def test_malformed_lines_ignored(tmp_dataset_root: Path) -> None:
-    content = "1\tOk\t_\tINTJ\n" "BADLINE WITHOUT TABS\n" "2\tthen\t_\tADV\n" "\n"
+    content = "1\tOk\t_\tINTJ\nBADLINE WITHOUT TABS\n2\tthen\t_\tADV\n\n"
     _write(tmp_dataset_root, "bad.conllu.txt", content)
     ds: MovaInstitutePOSDataset = MovaInstitutePOSDataset(
         root=tmp_dataset_root, download=False, file_name="bad.conllu.txt"
@@ -81,14 +81,7 @@ def test_empty_file_raises_parse_error(tmp_dataset_root: Path) -> None:
 
 
 def test_label_frequencies(tmp_dataset_root: Path) -> None:
-    content = (
-        "1\tHello\t_\tINTJ\n"
-        "2\tworld\t_\tNOUN\n"
-        "\n"
-        "1\tworld\t_\tNOUN\n"
-        "2\tagain\t_\tADV\n"
-        "\n"
-    )
+    content = "1\tHello\t_\tINTJ\n2\tworld\t_\tNOUN\n\n1\tworld\t_\tNOUN\n2\tagain\t_\tADV\n\n"
     _write(tmp_dataset_root, "freq.conllu.txt", content)
     ds: MovaInstitutePOSDataset = MovaInstitutePOSDataset(
         root=tmp_dataset_root, download=False, file_name="freq.conllu.txt"

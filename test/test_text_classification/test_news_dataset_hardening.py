@@ -14,7 +14,7 @@ def _write(root: Path, name: str, text: str) -> Path:
     return p
 
 
-@pytest.fixture()
+@pytest.fixture
 def tmp_news_root(tmp_path: Path) -> Path:
     return tmp_path
 
