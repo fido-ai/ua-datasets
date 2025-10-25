@@ -7,6 +7,8 @@ on:
 
 jobs:
   build:
+    env:
+      EMAIL_ENABLED: ${{ secrets.EMAIL_ENABLED }}
     strategy:
       matrix:
         python-version: [3.11]
@@ -14,10 +16,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
         - name: Checkout code
-          uses: actions/checkout@v2
+          uses: actions/checkout@v4
 
         - name: Set up Python ${{ matrix.python-version }}
-          uses: actions/setup-python@v2
+          uses: actions/setup-python@v5
           with:
               python-version: ${{ matrix.python-version }}
 
@@ -138,53 +140,34 @@ jobs:
           with:
               password: ${{ secrets.pypi_token }}
 
-        - name: Email on success
-          env:
-            email_user: ${{ secrets.email_user }}
-            email_target: ${{ secrets.email_target }}
-            email_server: ${{ secrets.email_server }}
-            email_token: ${{ secrets.email_token }}
-          if: (steps.get-versions.outputs.new-version == 'true') && (steps.test-sdist.outputs.result == 'true') && (steps.test-bdist-wheel.outputs.result == 'true')
-          shell: bash
-          run: |
-              python -c "
-              from smtplib import SMTP
-              from email.mime.text import MIMEText
-              from_ = '$email_user'
-              to = '$email_target'
-              msg = MIMEText('')
-              msg['From'] = from_
-              msg['To'] = to
-              msg['Subject'] = 'Deploy success | ${{ github.repository }} ${{ steps.get-versions.outputs.tag }}'
-              with SMTP('$email_server') as s:
-                  s.starttls()
-                  s.login('$email_user', '$email_token')
-                  s.sendmail(from_, [to], msg.as_string())
-              "
+        # Email notifications replaced: Basic SMTP auth was failing (535). Use a provider/API or guarded SMTP only if enabled.
+        - name: Send email (success)
+          if: ${{ steps.get-versions.outputs.new-version == 'true' && steps.test-sdist.outputs.result == 'true' && steps.test-bdist-wheel.outputs.result == 'true' && env.EMAIL_ENABLED == 'true' }}
+          uses: dawidd6/action-send-mail@v3
+          with:
+            server_address: ${{ secrets.SMTP_SERVER }}
+            server_port: ${{ secrets.SMTP_PORT }}
+            username: ${{ secrets.SMTP_USERNAME }}
+            password: ${{ secrets.SMTP_PASSWORD }}
+            subject: "Deploy success | ${{ github.repository }} ${{ steps.get-versions.outputs.tag }}"
+            to: ${{ secrets.EMAIL_TARGET }}
+            from: ${{ secrets.EMAIL_FROM }}
+            secure: true
+            body: "Release published for ${{ github.repository }} tag ${{ steps.get-versions.outputs.tag }}"
 
-        - name: Email on failure
-          env:
-            email_user: ${{ secrets.email_user }}
-            email_target: ${{ secrets.email_target }}
-            email_server: ${{ secrets.email_server }}
-            email_token: ${{ secrets.email_token }}
-          if: (steps.get-versions.outputs.new-version == 'true') && ((steps.test-sdist.outputs.result != 'true') || (steps.test-bdist-wheel.outputs.result != 'true'))
-          shell: bash
-          run: |
-              python -c "
-              from smtplib import SMTP
-              from email.mime.text import MIMEText
-              from_ = '$email_user'
-              to = '$email_target'
-              msg = MIMEText('')
-              msg['From'] = from_
-              msg['To'] = to
-              msg['Subject'] = 'Deploy ERROR | ${{ github.repository }} ${{ steps.get-versions.outputs.tag }}'
-              with SMTP('$email_server') as s:
-                  s.starttls()
-                  s.login('$email_user', '$email_token')
-                  s.sendmail(from_, [to], msg.as_string())
-              "
+        - name: Send email (failure)
+          if: ${{ steps.get-versions.outputs.new-version == 'true' && (steps.test-sdist.outputs.result != 'true' || steps.test-bdist-wheel.outputs.result != 'true') && env.EMAIL_ENABLED == 'true' }}
+          uses: dawidd6/action-send-mail@v3
+          with:
+            server_address: ${{ secrets.SMTP_SERVER }}
+            server_port: ${{ secrets.SMTP_PORT }}
+            username: ${{ secrets.SMTP_USERNAME }}
+            password: ${{ secrets.SMTP_PASSWORD }}
+            subject: "Deploy ERROR | ${{ github.repository }} ${{ steps.get-versions.outputs.tag }}"
+            to: ${{ secrets.EMAIL_TARGET }}
+            from: ${{ secrets.EMAIL_FROM }}
+            secure: true
+            body: "Release failed tests for ${{ github.repository }} tag ${{ steps.get-versions.outputs.tag }}"
 
         - name: Fail
           if: (steps.get-versions.outputs.new-version == 'true') && ((steps.test-sdist.outputs.result != 'true') || (steps.test-bdist-wheel.outputs.result != 'true'))
