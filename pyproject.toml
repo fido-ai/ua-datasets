@@ -39,10 +39,11 @@ include = ["ua_datasets*"]
 
 [dependency-groups]
 dev = [
+    "mypy>=1.18.2",
     "pre-commit>=2.21.0",
     "pytest>=7.4.4",
     "ruff>=0.14.2",
-    "mypy>=1.18.2",
+    "uv-sort>=0.6.1",
 ]
 
 [tool.ruff]
