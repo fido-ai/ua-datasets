@@ -13,7 +13,7 @@
 | Unified API | `len(ds)`, indexing, iteration across all datasets |
 | Resilient downloads | Retries, integrity / basic validation, fallback filenames (UA-SQuAD val) |
 | Minimal deps | Core loaders rely only on the standard library |
-| Consistent samples | Typed tuples: QA `(question, context, answer)`, Classification `(title, text, label, tags?)`, POS `(tokens, tags)` |
+| Consistent samples | QA: HF-style dict (`id`, `title`, `context`, `question`, `answers`, `is_impossible`); Classification `(title, text, label, tags?)`; POS `(tokens, tags)` |
 | Frequency helpers | Simple methods for label/answer frequency analysis |
 | Ready for tooling | Works seamlessly with `uv`, `ruff`, `mypy`, `pytest`, `pre-commit` |
 
@@ -36,10 +36,9 @@ from pathlib import Path
 from ua_datasets.question_answering import UaSquadDataset
 
 ds = UaSquadDataset(root=Path("./data/ua_squad"), split="train", download=True)
-print(f"Samples: {len(ds)}")
-question, context, answer = ds[0]
-print(question)
-print(answer)
+print(f"Examples: {len(ds)}")
+ex = ds[0]
+print(ex["question"], "->", ex["answers"]["text"])  # list of answers (possibly empty if impossible)
 ```
 
 Text classification:

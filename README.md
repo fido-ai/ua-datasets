@@ -42,10 +42,12 @@ from ua_datasets.question_answering import UaSquadDataset
 from ua_datasets.text_classification import NewsClassificationDataset
 from ua_datasets.token_classification import MovaInstitutePOSDataset
 
-# Question Answering (first sample)
+# Question Answering (first HF-style example dict)
 qa = UaSquadDataset(root=Path("./data/ua_squad"), split="train", download=True)
-print("QA samples:", len(qa))
-print("First QA triplet:", qa[0])  # (question, context, answer)
+print("QA examples:", len(qa))
+example = qa[0]
+print(example.keys())  # id, title, context, question, answers, is_impossible
+print(example["question"], "->", example["answers"]["text"])  # list of accepted answers
 
 # News Classification
 news = NewsClassificationDataset(root=Path("./data/ua_news"), split="train", download=True)
@@ -118,16 +120,13 @@ uv sync --dev
 
 | Task | Dataset | Import Class | Splits | Notes |
 |------|---------|--------------|--------|-------|
-| Question Answering | UA-SQuAD | `UaSquadDataset` | `train`, `val` | SQuAD-style JSON; automatic fallbacks for legacy validation filenames |
+| Question Answering | UA-SQuAD | `UaSquadDataset` | `train`, `val` | SQuAD v2-style examples (`is_impossible`, multi answers); iteration yields dicts |
 | Text Classification | UA-News | `NewsClassificationDataset` | `train`, `test` | CSV (title, text, target[, tags]); optional tag parsing |
 | Token Classification | Mova Institute POS | `MovaInstitutePOSDataset` | (single corpus) | CoNLL-U like POS tagging; yields (tokens, tags) per sentence |
-
-
 
 ## Contribution
 
 In case you are willing to contribute (update any part of the library, add your dataset) do not hesitate to connect through [GitHub Issue](https://github.com/fido-ai/ua-datasets/issues/new/choose). Thanks in advance for your contribution!
-
 
 ## Citation
 
