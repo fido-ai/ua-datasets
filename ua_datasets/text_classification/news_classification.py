@@ -70,6 +70,7 @@ class NewsClassificationDataset:
     max_retries: int = 3
     timeout: int = 20  # seconds
     expected_sha256: str | None = None
+    show_progress: bool = True
 
     dataset_path: Path = field(init=False)
     _columns: List[str] = field(init=False, default_factory=list)
@@ -105,6 +106,7 @@ class NewsClassificationDataset:
                 max_retries=self.max_retries,
                 expected_sha256=self.expected_sha256,
                 opener=urlopen,
+                show_progress=self.show_progress,
             )
         except DownloadFailure as exc:
             raise DownloadError(str(exc)) from exc

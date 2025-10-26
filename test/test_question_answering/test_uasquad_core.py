@@ -31,8 +31,12 @@ def test_train_present_no_download(tmp_path: Path) -> None:
     write_json(tmp_path, "train.json", TRAIN_JSON)
     ds = UaSquadDataset(root=tmp_path, split="train", download=False)
     assert len(ds) == 2
-    q, c, a = ds[0]
-    assert all(isinstance(x, str) and x for x in (q, c, a))
+    ex = ds[0]
+    assert isinstance(ex, dict)
+    assert all(isinstance(ex[k], str) and ex[k] for k in ("question", "context"))
+    if not ex.get("is_impossible"):
+        assert ex["answers"]["text"]
+        assert isinstance(ex["answers"]["text"][0], str)
 
 
 def test_train_missing_no_download(tmp_path: Path) -> None:
@@ -44,8 +48,9 @@ def test_val_present_no_download(tmp_path: Path) -> None:
     write_json(tmp_path, "val.json", VAL_JSON)
     ds = UaSquadDataset(root=tmp_path, split="val", download=False)
     assert len(ds) == 3
-    sample = ds[len(ds) // 2]
-    assert all(isinstance(x, str) and x for x in sample)
+    ex = ds[len(ds) // 2]
+    assert isinstance(ex, dict)
+    assert all(isinstance(ex[k], str) and ex[k] for k in ("question", "context"))
 
 
 def test_val_missing_no_download(tmp_path: Path) -> None:

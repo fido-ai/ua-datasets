@@ -6,7 +6,7 @@ If you found this library useful in academic research, please cite:
   month = oct,
   title = {ua_datasets: a collection of Ukrainian language datasets},
   url = {https://github.com/fido-ai/ua-datasets},
-  version = {0.0.1},
+  version = {1.0.0},
   year = {2021}
 }
 ```

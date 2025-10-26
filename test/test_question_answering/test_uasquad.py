@@ -11,8 +11,15 @@ def test_basic_integrity(dataset: UaSquadDataset) -> None:
     """
     if len(dataset) == 0:
         pytest.skip("Empty split provided (no samples). Skipping integrity checks.")
-    q, c, a = dataset[0]
-    assert all(isinstance(x, str) and x.strip() for x in (q, c, a))
+    ex = dataset[0]
+    assert isinstance(ex, dict)
+    assert isinstance(ex.get("question"), str)
+    assert ex["question"].strip()
+    assert isinstance(ex.get("context"), str)
+    assert ex["context"].strip()
+    if not ex.get("is_impossible"):
+        assert ex["answers"]["text"]
+        assert isinstance(ex["answers"]["text"][0], str)
 
 
 def test_multiple_samples_if_available(dataset: UaSquadDataset) -> None:
@@ -21,40 +28,43 @@ def test_multiple_samples_if_available(dataset: UaSquadDataset) -> None:
         return
     n = len(dataset)
     for idx in [0, n // 2, n - 1]:
-        q, c, a = dataset[idx]
-        assert all(isinstance(x, str) and x.strip() for x in (q, c, a))
+        ex = dataset[idx]
+        assert isinstance(ex.get("question"), str)
+        assert ex["question"].strip()
+        assert isinstance(ex.get("context"), str)
+        assert ex["context"].strip()
+        if not ex.get("is_impossible"):
+            assert ex["answers"]["text"]
 
 
 def test_iter_first_three(dataset: UaSquadDataset) -> None:
     """Iterating yields triplets of strings; limit to first three to stay quick."""
     count_checked = 0
-    for triplet in dataset:
-        q, c, a = triplet
-        assert all(isinstance(x, str) and x.strip() for x in (q, c, a))
+    for ex in dataset:
+        assert isinstance(ex.get("question"), str)
+        assert ex["question"].strip()
+        assert isinstance(ex.get("context"), str)
+        assert ex["context"].strip()
+        if not ex.get("is_impossible"):
+            assert ex["answers"]["text"]
         count_checked += 1
     # If dataset non-empty ensure we actually validated at least one
     assert count_checked == len(dataset)
 
 
-def test_alignment_and_data_property(dataset: UaSquadDataset) -> None:
-    """questions, contexts, answers lengths align and match data property length."""
+def test_examples_length_and_schema(dataset: UaSquadDataset) -> None:
     if len(dataset) == 0:
         return
-    # Access via public properties if they exist (dataset exposes them).
-    questions = getattr(dataset, "questions", [])
-    contexts = getattr(dataset, "contexts", [])
-    answers = getattr(dataset, "answers", [])
-    assert len(questions) == len(contexts) == len(answers) == len(dataset)
-    data_pairs = dataset.data
-    assert len(data_pairs) == len(dataset)
-    # Spot check first pair matches first question/context
-    dq, dc = data_pairs[0]
-    assert dq == questions[0]
-    assert dc == contexts[0]
+    examples = dataset.examples
+    assert len(examples) == len(dataset)
+    first = examples[0]
+    for key in ["id", "context", "question", "answers", "is_impossible"]:
+        assert key in first
+    assert isinstance(first["answers"], dict)
 
 
 def test_repr_contains_split_and_count(dataset: UaSquadDataset) -> None:
     r = repr(dataset)
     # Should at least mention the split string and a count marker
     assert dataset.split in r
-    assert "n_samples=" in r or "n_samples" in r or str(len(dataset)) in r
+    assert "examples=" in r or str(len(dataset)) in r
