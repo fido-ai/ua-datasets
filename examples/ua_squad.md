@@ -9,44 +9,61 @@ Ukrainian version of [Stanford Question Answering Dataset](https://rajpurkar.git
     Number of questions without answers: 2 927
     File size: 17.1 MB
 
-__Data sample__
+### Data sample (HF-style)
 
 ```json
 {
-    "Question": "Якою була мета нової творчої компанії DONDA, створеної Каньє?",
-    "Context": "5 січня 2012 року Вест оголосив про створення компанії ...",
-    "Answer": "виготовлення продуктів та поширення досвіду, які люди хочуть отримати й можуть собі дозволити"
+    "id": "3d9f1c2e7a4b1f20",
+    "title": "DONDA",
+    "context": "5 січня 2012 року Вест оголосив про створення компанії ...",
+    "question": "Якою була мета нової творчої компанії DONDA, створеної Каньє?",
+    "answers": {"text": ["виготовлення продуктів та поширення досвіду, які люди хочуть отримати й можуть собі дозволити"], "answer_start": [123]},
+    "is_impossible": false
 }
 ```
 
 ## Example of usage
 
-### Our API
+### Python API (HF-style examples)
 
 ```python
 from ua_datasets import UaSquadDataset
 
-qa_dataset = UaSquadDataset("data/", download=True)
+qa_dataset = UaSquadDataset("data/", split="train", download=True)
 
-for question, context, answer in qa_dataset:
-    print("Question: " + question)
-    print("Context: " + context)
-    print("Answer: " + answer)
+for ex in qa_dataset:  # each ex is a dict
+    print("Question:", ex["question"]) 
+    print("Answers:", ex["answers"]["text"])  # list (may be empty if is_impossible)
+    if ex.get("is_impossible"):
+        print("(No answer — impossible question)")
+    break
 ```
 
-### Hugging Face 🤗 API
+### Optional: DatasetDict helper (no external Hub required)
+
+If you have the optional `datasets` library installed, you can build a local `DatasetDict`
+using the in-package helper (this does NOT call the Hugging Face Hub API if the JSON
+files are already cached locally):
 
 ```python
-from datasets import load_dataset
+from ua_datasets.question_answering.uasquad_question_answering import load_ua_squad_v2
 
-dataset = load_dataset("FIdo-AI/ua-squad", field="data")
-
-for qca in dataset['train']:
-    question, context, answer = qca['Question'], qca['Context'], qca['Answer']
-    print("Question: " + question)
-    print("Context: " + context)
-    print("Answer: " + answer)
+dd = load_ua_squad_v2(root="data/ua_squad", download=True)  # returns a datasets.DatasetDict
+row = dd["train"][0]
+print(row["question"], row["answers"]["text"], row["is_impossible"])
 ```
+
+If `datasets` is not installed this helper will raise a `RuntimeError`; install it with:
+
+```bash
+uv add datasets  # or: uv add datasets
+```
+
+If you don't need a Hugging Face `Dataset`, stick with the pure-Python iteration example above.
+
+### Migration Note
+
+Legacy versions exposed `(question, context, answer)` tuples and keys `Question/Context/Answer` in raw JSON; these have been replaced by the standard SQuAD v2 schema shown above. Update loops to: `for ex in ds: ex['question'], ex['answers']['text']`.
 
 ## We thank our contributors
 
