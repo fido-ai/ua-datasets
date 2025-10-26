@@ -63,6 +63,10 @@ class UaSquadDataset:
     timeout: int = 20  # seconds
     expected_sha256: str | None = None
     show_progress: bool = True
+    # If True (default) skip flat-format training examples whose 'answer' value is an empty string.
+    # This avoids polluting the training set with ambiguous empty-answer placeholders while still
+    # retaining explicit impossible examples represented by a missing 'answer' key (answer=None).
+    ignore_empty_answer: bool = True
 
     dataset_path: Optional[Path] = field(init=False, default=None)
     # SQuAD v2 style expanded storage
@@ -80,7 +84,11 @@ class UaSquadDataset:
             # Graceful empty dataset (tests expect len==0 allowed)
             self._examples = []
             return
-        self._examples = self._parse(self.dataset_path)
+        self._examples = self._parse(
+            self.dataset_path,
+            ignore_empty_answer=self.ignore_empty_answer,
+            split=self.split,
+        )
         if not self._examples:
             raise ParseError(
                 f"Parsed zero QA examples from '{self.dataset_path}'. File may be malformed."
@@ -142,7 +150,12 @@ class UaSquadDataset:
         return None
 
     @staticmethod
-    def _parse(path: Path) -> List[HFStyleExample]:
+    def _parse(
+        path: Path,
+        *,
+        ignore_empty_answer: bool = True,
+        split: str | None = None,
+    ) -> List[HFStyleExample]:
         """Parse flat (train-like) or nested SQuAD / SQuAD v2 style JSON into HF style examples only."""
         with path.open("r", encoding="utf8") as f:
             try:
@@ -237,6 +250,11 @@ class UaSquadDataset:
                 else:
                     ans_text = str(answer).strip()
                     if not ans_text:
+                        # Empty string answer
+                        if ignore_empty_answer and split == "train":
+                            # Skip this example entirely when training to avoid noisy empties.
+                            continue
+                        # Keep as impossible example for non-train splits (evaluation) or when flag disabled.
                         texts = []
                         starts = []
                         is_impossible = True
