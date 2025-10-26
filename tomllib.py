@@ -7,6 +7,7 @@ For Python 3.10, ensure 'tomli' is installed (declared as an optional
 compat dependency). This shim exposes the minimal public surface used by
 most tooling: 'load' and 'loads'.
 """
+
 from __future__ import annotations
 
 try:  # pragma: no cover - environment dependent

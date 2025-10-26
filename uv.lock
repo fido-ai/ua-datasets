@@ -363,6 +363,11 @@ name = "ua-datasets"
 version = "1.0.0"
 source = { virtual = "." }
 
+[package.optional-dependencies]
+compat = [
+    { name = "tomli", marker = "python_full_version < '3.11'" },
+]
+
 [package.dev-dependencies]
 dev = [
     { name = "mypy" },
@@ -372,6 +377,8 @@ dev = [
 ]
 
 [package.metadata]
+requires-dist = [{ name = "tomli", marker = "python_full_version < '3.11' and extra == 'compat'" }]
+provides-extras = ["compat"]
 
 [package.metadata.requires-dev]
 dev = [
