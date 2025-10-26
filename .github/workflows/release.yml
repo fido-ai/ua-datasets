@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
         # Quote the version to prevent YAML from parsing 3.10 as float 3.1
-        python-version: ['3.10']
+        python-version: ['3.11']
         os: ['ubuntu-latest']
     runs-on: ${{ matrix.os }}
     steps:
@@ -28,7 +28,6 @@ jobs:
               python -m pip install --upgrade pip
               python -m pip install build
               python -m build
-
         - name: Get versions
           id: get-versions
           shell: bash

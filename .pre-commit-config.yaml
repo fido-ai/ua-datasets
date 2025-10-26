@@ -1,42 +1,43 @@
-default_stages: [pre-commit]
-
 repos:
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
-    hooks:
-      - id: end-of-file-fixer
-      - id: trailing-whitespace
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.10.0
-    hooks:
-      - id: mypy
-        additional_dependencies:
-          - pytest
-        args: ["--config-file", "pyproject.toml"]
   - repo: local
     hooks:
       - id: ruff-check
-        name: ruff check (uv)
-        entry: uv run ruff check .
+        name: ruff-check
+        entry: ./.venv/bin/ruff
+        args:
+          - check
+          - --exit-non-zero-on-fix
+        language: system
+        types: [python]
+        pass_filenames: false
+        always_run: true
+      - id: ruff-format
+        name: ruff-format
+        entry: ./.venv/bin/ruff
+        args: [ format ]
+        language: system
+        types: [ python ]
+        pass_filenames: false
+        always_run: true
+      - id: mypy
+        name: mypy
+        entry: ./.venv/bin/mypy
+        args:
+          - ua_datasets
+        language: system
+        types: [ python ]
+        pass_filenames: false
+        always_run: true
+      - id: uv-sort
+        name: uv-sort
+        entry: ./.venv/bin/uv-sort
         language: system
         pass_filenames: false
-        stages: [pre-commit]
-      # Additional push-stage checks mirroring CI (non auto-fixing, format check only)
-      - id: ruff-format-check
-        name: ruff format (check)
-        entry: uv run ruff format --check .
+      - id: uv-lock
+        name: uv-lock
+        entry: uv
+        args:
+          - lock
+          - --dry-run
         language: system
         pass_filenames: false
-        stages: [pre-push]
-      - id: ruff-lint-check
-        name: ruff check (no fix)
-        entry: uv run ruff check .
-        language: system
-        pass_filenames: false
-        stages: [pre-push]
-      - id: mypy-push
-        name: mypy (push / non-blocking parity with CI)
-        entry: uv run mypy || true
-        language: system
-        pass_filenames: false
-        stages: [pre-push]

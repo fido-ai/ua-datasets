@@ -32,7 +32,7 @@ from ua_datasets import UaSquadDataset
 qa_dataset = UaSquadDataset("data/", split="train", download=True)
 
 for ex in qa_dataset:  # each ex is a dict
-    print("Question:", ex["question"]) 
+    print("Question:", ex["question"])
     print("Answers:", ex["answers"]["text"])  # list (may be empty if is_impossible)
     if ex.get("is_impossible"):
         print("(No answer — impossible question)")
