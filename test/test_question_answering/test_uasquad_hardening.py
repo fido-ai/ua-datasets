@@ -92,6 +92,7 @@ def test_force_download_replaces(monkeypatch: pytest.MonkeyPatch, qa_tmp_root: P
     )
     ds = UaSquadDataset(root=qa_tmp_root, split="train", download=True, force_download=True)
     assert len(ds) == 1
-    q, _c, a = ds[0]
-    assert q == "QNEW"
-    assert a == "ANEW"
+    ex = ds[0]
+    assert ex["question"] == "QNEW"
+    if not ex.get("is_impossible"):
+        assert ex["answers"]["text"][0] == "ANEW"
