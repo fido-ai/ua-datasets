@@ -20,6 +20,7 @@ __all__ = [
 # pydantic/dataclasses for each row to avoid overhead and preserve zero heavy deps.
 HFStyleExample = Dict[str, Any]
 
+
 class DownloadError(RuntimeError):
     """Raised when a split cannot be downloaded after retries or integrity check fails."""
 
@@ -164,7 +165,10 @@ class UaSquadDataset:
             return context.find(answer_text) if answer_text else -1
 
         nested_format = (
-            data and isinstance(data, list) and isinstance(data[0], dict) and "paragraphs" in data[0]
+            data
+            and isinstance(data, list)
+            and isinstance(data[0], dict)
+            and "paragraphs" in data[0]
         )
 
         if nested_format:
@@ -272,9 +276,7 @@ class UaSquadDataset:
             yield ex
 
     def __repr__(self) -> str:
-        return (
-            f"{self.__class__.__name__}(split={self.split!r}, examples={len(self._examples)}, unique_answers={len(self._unique_answers_cache)})"
-        )
+        return f"{self.__class__.__name__}(split={self.split!r}, examples={len(self._examples)}, unique_answers={len(self._unique_answers_cache)})"
 
     def _check_exists(self) -> bool:
         return bool(self.dataset_path and self.dataset_path.exists())
@@ -301,6 +303,7 @@ class UaSquadDataset:
         """
         try:  # local import to avoid hard dependency
             import importlib
+
             ds_mod = importlib.import_module("datasets")
             Dataset = ds_mod.Dataset
         except Exception as exc:
@@ -342,6 +345,7 @@ def load_ua_squad_v2(
     """
     try:  # local import to avoid hard dependency
         import importlib
+
         ds_mod = importlib.import_module("datasets")
         DatasetDict = ds_mod.DatasetDict
         Features = ds_mod.Features
