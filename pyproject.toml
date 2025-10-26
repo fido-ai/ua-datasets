@@ -21,10 +21,18 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
 ]
 urls = {repository = "https://github.com/fido-ai/ua-datasets" }
-dependencies = []
+dependencies = [
+]
+
+# Backport for Python < 3.11 to satisfy tools/plugins that unconditionally import 'tomllib'
+[project.optional-dependencies]
+compat = [
+    "tomli; python_version < '3.11'",
+]
 
 [tool.setuptools]
 include-package-data = true
+py-modules = ["tomllib"]
 
 [tool.setuptools.packages.find]
 include = ["ua_datasets*"]
