@@ -9,8 +9,7 @@ jobs:
   build:
     strategy:
       matrix:
-        # Quote the version to prevent YAML from parsing 3.10 as float 3.1
-        python-version: ['3.11']
+        python-version: [3.11]
         os: ['ubuntu-latest']
     runs-on: ${{ matrix.os }}
     steps:
@@ -35,14 +34,11 @@ jobs:
               python -c "
               import subprocess
               import tomllib
-
               vparse = lambda x: tuple(map(int, x.split('.')))
-
               with open('pyproject.toml', 'rb') as f:
                   data = tomllib.load(f)
               name = data['project']['name']
               checkout_version = data['project']['version']
-
               pypi_version = subprocess.run(f'python -m pip index versions {name}',
                                             shell=True, capture_output=True).stdout
               pypi_version = pypi_version.split(b'\n', 1)[0].split(b' ')[1][1:-1].decode('utf-8')
@@ -56,7 +52,6 @@ jobs:
               print(f'Setting tag=v{checkout_version}')
               print(f'Setting new-version={new_version}')
               "
-
         - name: Test sdist
           id: test-sdist
           if: steps.get-versions.outputs.new-version == 'true'
@@ -79,7 +74,6 @@ jobs:
               set -e
               python -m pip uninstall -y -r <(pip freeze)
               cd ${{ github.workspace }}
-
         - name: Test bdist_wheel
           id: test-bdist-wheel
           if: steps.get-versions.outputs.new-version == 'true'
@@ -102,14 +96,12 @@ jobs:
               set -e
               python -m pip uninstall -y -r <(pip freeze)
               cd ${{ github.workspace }}
-
         - name: Logging
           shell: bash
           run: |
               echo new-version=${{ steps.get-versions.outputs.new-version }}
               echo sdist-result=${{ steps.test-sdist.outputs.result }}
               echo bdist-result=${{ steps.test-bdist-wheel.outputs.result }}
-
         - name: Tag
           env:
             github_user: KyloRen1
@@ -121,7 +113,6 @@ jobs:
               git config --global user.name "Action: Update Python project"
               git tag "${{ steps.get-versions.outputs.tag }}" -m ""
               git push https://$github_user:$github_token@github.com/${{ github.repository }} "${{ steps.get-versions.outputs.tag }}"
-
         - name: GitHub release
           if: (steps.get-versions.outputs.new-version == 'true') && (steps.test-sdist.outputs.result == 'true') && (steps.test-bdist-wheel.outputs.result == 'true')
           uses: softprops/action-gh-release@v1
